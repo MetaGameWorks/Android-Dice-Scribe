@@ -5,10 +5,28 @@ using UnityEngine.UI;
 
 public class Attack_Menu_Script : MonoBehaviour
 {
+    // variables for the attack input fields
     public GameObject attacksInput;
     public GameObject skillInput;
     public GameObject weaponStrInput;
     public GameObject targetToughnessInput;
+
+    // variables for the results fields
+    public GameObject hitDie1;
+    public GameObject hitDie2;
+    public GameObject hitDie3;
+    public GameObject hitDie4;
+    public GameObject hitDie5;
+    public GameObject hitDie6;
+    public GameObject totalHits;
+
+    public GameObject woundDie1;
+    public GameObject woundDie2;
+    public GameObject woundDie3;
+    public GameObject woundDie4;
+    public GameObject woundDie5;
+    public GameObject woundDie6;
+    public GameObject totalWounds;
 
     //private GameObject numOfAttacks;
     //private GameObject numToHit;
