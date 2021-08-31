@@ -114,6 +114,12 @@ public class Attack_Menu_Script : MonoBehaviour
         }
 
         // outputs the hit roll results
+        hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
+        hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
+        hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
+        hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
+        hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
+        hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
         Debug.Log("Hits - 6: " + hitDiePool[5] + " / 5: " + hitDiePool[4] + " / 4: " + hitDiePool[3] + " / 3: " + hitDiePool[2] + " / 2: " + hitDiePool[1] + " / 1: " + hitDiePool[0]);
 
         // hit rolls of 6 grants extra attacks
@@ -144,6 +150,7 @@ public class Attack_Menu_Script : MonoBehaviour
             numOfHits += hitDiePool[i];
         }
 
+        totalHits.GetComponent<Text>().text = "Hits: " + numOfHits;
         Debug.Log(numOfHits + " Hits");
 
         // rolling to wound
@@ -153,6 +160,12 @@ public class Attack_Menu_Script : MonoBehaviour
         }
 
         // outputs the wound roll results
+        woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
+        woundDie2.GetComponent<Text>().text = "" + woundDiePool[1];
+        woundDie3.GetComponent<Text>().text = "" + woundDiePool[2];
+        woundDie4.GetComponent<Text>().text = "" + woundDiePool[3];
+        woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
+        woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
         Debug.Log("Wounds - 6: " + woundDiePool[5] + " / 5: " + woundDiePool[4] + " / 4: " + woundDiePool[3] + " / 3: " + woundDiePool[2] + " / 2: " + woundDiePool[1] + " / 1: " + woundDiePool[0]);
 
         // counts the successful wounds
@@ -162,6 +175,7 @@ public class Attack_Menu_Script : MonoBehaviour
         }
 
         // outputs the number of successful wounds
+        totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
         Debug.Log(numOfWounds + " Wounds");
     }
 }
