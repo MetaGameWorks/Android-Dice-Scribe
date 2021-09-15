@@ -38,15 +38,90 @@ public class Attack_Menu_Script : MonoBehaviour
     public int wound = 0;
 
     public bool explodeHit = false;
-    public int[] hitDiePool;
-    public int[] extraDiePool;
-    public int[] woundDiePool;
+    public int[] hitDiePool = new int[6];
+    public int[] extraDiePool = new int[6];
+    public int[] woundDiePool = new int[6];
+
+    public void RollToHit()
+    {
+        // Assigning vaules from the input fields
+        int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
+        int.TryParse(skillInput.GetComponent<Text>().text, out int hit);
+        int.TryParse(weaponStrInput.GetComponent<Text>().text, out int str);
+        int.TryParse(targetToughnessInput.GetComponent<Text>().text, out int toughness);
+
+        // Calculating the number needed to wound
+        if (str == toughness)
+        {
+            // If the equal to, 4+ is needed to wound
+            wound = 4;
+        }
+        else if (str > toughness)
+        {
+            if (str >= (toughness * 2))
+            {
+                // if str is equal to or greater than double the toughness, 2+ is needed to wound
+                wound = 2;
+            }
+            else
+            {
+                // if str is greater than but not qual to or greater than double the toughness, 3+ is needed to wound
+                wound = 3;
+            }
+        }
+        else
+        {
+            if (toughness >= (str * 2))
+            {
+                // if toughness is equal to or greater than double the str, 6+ is needed to wound
+                wound = 6;
+            }
+            else
+            {
+                // if toughness is greater than but not qual to or greater than double the str, 5+ is needed to wound
+                wound = 5;
+            }
+        }
+
+        // rolling function call
+        if (attacks > 0 && (hit > 0 && hit < 7))
+        {
+            Roll(attacks, hit, wound);
+        }
+    }
+
+    public void ReRollHit1()
+    {
+
+    }
+
+    public void ReRollHitAll()
+    {
+
+    }
+
+    public void RollToWound()
+    {
+
+    }
+
+    // takes a num and an array
+    // num is the number of dice and dicePool is the array of dice ex
+    public void RollDice(int num, int[] dicePool)
+    {
+        dicePool = new int[6];
+        for (int i = 0; i < num; i++)
+        {
+            dicePool[Random.Range(0, 5)]++;
+        }
+    }
+
+    //***************************************************************************************************************************************************************************************************
 
     // function to be called when the player hits the Attack! button
     public void Attack()
     {
         // Assigning vaules from the input fields
-
         int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
         int.TryParse(skillInput.GetComponent<Text>().text, out int hit);
         int.TryParse(weaponStrInput.GetComponent<Text>().text, out int str);
