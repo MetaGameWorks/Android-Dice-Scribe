@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Attack_Menu_Script : MonoBehaviour
 {
@@ -28,9 +29,6 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject woundDie6;
     public GameObject totalWounds;
 
-    //private GameObject numOfAttacks;
-    //private GameObject numToHit;
-    //private GameObject numToWound;
     public int attacks = 0;
     public int hit = 0;
     public int str = 0;
@@ -39,11 +37,16 @@ public class Attack_Menu_Script : MonoBehaviour
 
     public bool explodeHit = false;
     public int[] hitDiePool = new int[6];
-    public int[] extraDiePool = new int[6];
     public int[] woundDiePool = new int[6];
+    public int[] reRollDiePool = new int[6];
 
     public void RollToHit()
     {
+        // reset all arrays to 0 as not to keep previous rolls
+        Array.Clear(hitDiePool, 0, 6);
+        Array.Clear(woundDiePool, 0, 6);
+        Array.Clear(reRollDiePool, 0, 6);
+
         // Assigning vaules from the input fields
         int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
         int.TryParse(skillInput.GetComponent<Text>().text, out int hit);
@@ -90,7 +93,7 @@ public class Attack_Menu_Script : MonoBehaviour
         }
     }
 
-    public void ReRollHit1()
+    public void ReRollHit1s()
     {
 
     }
@@ -109,10 +112,9 @@ public class Attack_Menu_Script : MonoBehaviour
     // num is the number of dice and dicePool is the array of dice ex
     public void RollDice(int num, int[] dicePool)
     {
-        dicePool = new int[6];
         for (int i = 0; i < num; i++)
         {
-            dicePool[Random.Range(0, 5)]++;
+            dicePool[UnityEngine.Random.Range(0, 5)]++;
         }
     }
 
@@ -185,7 +187,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // rolling to hit
         for (int i = 1; i <= attacks; i++)
         {
-            hitDiePool[Random.Range(0, 5)]++;
+            hitDiePool[UnityEngine.Random.Range(0, 5)]++;
         }
 
         // outputs the hit roll results
@@ -231,7 +233,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // rolling to wound
         for (int i = 1; i <= numOfHits; i++)
         {
-            woundDiePool[Random.Range(0, 5)]++;
+            woundDiePool[UnityEngine.Random.Range(0, 5)]++;
         }
 
         // outputs the wound roll results
