@@ -29,19 +29,21 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject woundDie6;
     public GameObject totalWounds;
 
-    public int attacks = 0;
-    public int hit = 0;
-    public int str = 0;
-    public int toughness = 0;
-    public int wound = 0;
+    int attacks = 0;
+    int hit = 0;
+    int str = 0;
+    int toughness = 0;
+    int wound = 0;
 
-    public bool explodeHit = false;
-    public int[] hitDiePool = new int[6];
-    public int[] woundDiePool = new int[6];
-    public int[] reRollDiePool = new int[6];
+    int[] hitDiePool = new int[6];
+    int[] woundDiePool = new int[6];
+    int[] reRollDiePool = new int[6];
 
     public void RollToHit()
     {
+        // reset values to 0
+        // attacks,hit,str,toughness, wound = 0;
+
         // reset all arrays to 0 as not to keep previous rolls
         Array.Clear(hitDiePool, 0, 6);
         Array.Clear(woundDiePool, 0, 6);
@@ -53,57 +55,78 @@ public class Attack_Menu_Script : MonoBehaviour
         int.TryParse(weaponStrInput.GetComponent<Text>().text, out int str);
         int.TryParse(targetToughnessInput.GetComponent<Text>().text, out int toughness);
 
-        // Calculating the number needed to wound
-        if (str == toughness)
-        {
-            // If the equal to, 4+ is needed to wound
-            wound = 4;
-        }
-        else if (str > toughness)
-        {
-            if (str >= (toughness * 2))
-            {
-                // if str is equal to or greater than double the toughness, 2+ is needed to wound
-                wound = 2;
-            }
-            else
-            {
-                // if str is greater than but not qual to or greater than double the toughness, 3+ is needed to wound
-                wound = 3;
-            }
-        }
-        else
-        {
-            if (toughness >= (str * 2))
-            {
-                // if toughness is equal to or greater than double the str, 6+ is needed to wound
-                wound = 6;
-            }
-            else
-            {
-                // if toughness is greater than but not qual to or greater than double the str, 5+ is needed to wound
-                wound = 5;
-            }
-        }
+        
 
         // rolling function call
         if (attacks > 0 && (hit > 0 && hit < 7))
         {
-            Roll(attacks, hit, wound);
+            // rolls the dice
+            RollDice(attacks, hitDiePool);
+
+            // outputs the hit roll results
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
+            hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
+            hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
+            hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
+            hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
+            hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
+
+            totalHits.GetComponent<Text>().text = "Hits: " + CountSuccesses(hit, hitDiePool);
         }
     }
 
-    public void ReRollHit1s()
+    // re-roll one failed hit roll for command point re-roll or other abilities
+    public void ReRollOneHit()
     {
 
     }
 
-    public void ReRollHitAll()
+    // re-roll all hit rolls of 1
+    public void ReRollHitOf1()
+    {
+        
+    }
+
+    // re-roll all failed hit rolls
+    public void ReRollHitAllFails()
     {
 
     }
 
+    // roll to wound
     public void RollToWound()
+    {
+        // clears the re-roll dice pool
+        Array.Clear(reRollDiePool, 0, 6);
+
+        // rolls the dice
+        RollDice(attacks, woundDiePool);
+
+        // outputs the wound roll results
+        woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
+        woundDie2.GetComponent<Text>().text = "" + woundDiePool[1];
+        woundDie3.GetComponent<Text>().text = "" + woundDiePool[2];
+        woundDie4.GetComponent<Text>().text = "" + woundDiePool[3];
+        woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
+        woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
+
+        totalWounds.GetComponent<Text>().text = "Wounds: " + CountSuccesses(wound, woundDiePool);
+    }
+
+    // re-roll one failed wound roll for command point re-roll or other abilities
+    public void ReRollOneWound()
+    {
+
+    }
+
+    // re-roll all wound rolls of 1
+    public void ReRollWoundOf1()
+    {
+
+    }
+    
+    // re-roll all failed wound rolls
+    public void ReRollWoundAllFails()
     {
 
     }
@@ -116,6 +139,61 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             dicePool[UnityEngine.Random.Range(0, 5)]++;
         }
+    }
+
+    // takes a num and an arracy and returns an int
+    // the num is the lower limit to count the number of successful rolls in the dice array
+    public int CountSuccesses(int num, int[] dicePool)
+    {
+        int numOfSuc = 0;
+
+        for (int i = 5; i >= (num - 1); i--)
+        {
+            numOfSuc += dicePool[i];
+        }
+
+        return numOfSuc;
+    }
+
+    // calculates the wound value
+    public int CalcWound()
+    {
+        int woundNum = 0;
+
+        // Calculating the number needed to wound
+        if (str == toughness)
+        {
+            // If the equal to, 4+ is needed to wound
+            woundNum = 4;
+        }
+        else if (str > toughness)
+        {
+            if (str >= (toughness * 2))
+            {
+                // if str is equal to or greater than double the toughness, 2+ is needed to wound
+                woundNum = 2;
+            }
+            else
+            {
+                // if str is greater than but not qual to or greater than double the toughness, 3+ is needed to wound
+                woundNum = 3;
+            }
+        }
+        else
+        {
+            if (toughness >= (str * 2))
+            {
+                // if toughness is equal to or greater than double the str, 6+ is needed to wound
+                woundNum = 6;
+            }
+            else
+            {
+                // if toughness is greater than but not qual to or greater than double the str, 5+ is needed to wound
+                woundNum = 5;
+            }
+        }
+
+        return woundNum;
     }
 
     //***************************************************************************************************************************************************************************************************
@@ -198,28 +276,6 @@ public class Attack_Menu_Script : MonoBehaviour
         hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
         hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
         Debug.Log("Hits - 6: " + hitDiePool[5] + " / 5: " + hitDiePool[4] + " / 4: " + hitDiePool[3] + " / 3: " + hitDiePool[2] + " / 2: " + hitDiePool[1] + " / 1: " + hitDiePool[0]);
-
-        // hit rolls of 6 grants extra attacks
-        /*if(explodeHit)
-        {
-            if(hitDiePool[5] != 0)
-            {
-                int extraHits = hitDiePool[5];
-                extraDiePool = new int[6];
-
-                for(int i = 1; i <= attacks; i++)
-                {
-                    extraDiePool[Random.Range(0, 5)]++;
-                }
-
-                for (int i = 5; i >= (hitReq - 1); i--)
-                {
-                    numOfHits += hitDiePool[i];
-                }
-
-                Debug.Log("Exploding Hits - 6: " + extraDiePool[5] + " / 5: " + extraDiePool[4] + " / 4: " + extraDiePool[3] + " / 3: " + extraDiePool[2] + " / 2: " + extraDiePool[1] + " / 1: " + extraDiePool[0]);
-            }
-        }*/
 
         // counts the successful hits
         for (int i = 5; i >= (hitReq - 1); i--)
