@@ -2091,7 +2091,7 @@ RectTransform:
   m_Children:
   - {fileID: 673465122}
   m_Father: {fileID: 950668038}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.326}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4345,8 +4345,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 531569982}
   - {fileID: 1927259132}
+  - {fileID: 531569982}
   m_Father: {fileID: 1255920507}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5119,8 +5119,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1831147765}
   - {fileID: 1226836477}
+  - {fileID: 1831147765}
   m_Father: {fileID: 1025855443}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5736,7 +5736,7 @@ RectTransform:
   - {fileID: 859233986}
   - {fileID: 1073248904}
   m_Father: {fileID: 1080709233}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7958,7 +7958,7 @@ RectTransform:
   m_Children:
   - {fileID: 306818535}
   m_Father: {fileID: 1080709233}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.326}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -8337,7 +8337,7 @@ RectTransform:
   - {fileID: 469552452}
   - {fileID: 936866186}
   m_Father: {fileID: 950668038}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8771,33 +8771,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea50eef738e42284186cb927136a5c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacksInput: {fileID: 0}
-  skillInput: {fileID: 0}
-  weaponStrInput: {fileID: 0}
-  targetToughnessInput: {fileID: 0}
-  hitDie1: {fileID: 0}
-  hitDie2: {fileID: 0}
-  hitDie3: {fileID: 0}
-  hitDie4: {fileID: 0}
-  hitDie5: {fileID: 0}
-  hitDie6: {fileID: 0}
-  totalHits: {fileID: 0}
-  woundDie1: {fileID: 0}
-  woundDie2: {fileID: 0}
-  woundDie3: {fileID: 0}
-  woundDie4: {fileID: 0}
-  woundDie5: {fileID: 0}
-  woundDie6: {fileID: 0}
-  totalWounds: {fileID: 0}
-  attacks: 0
-  hit: 0
-  str: 0
-  toughness: 0
-  wound: 0
-  explodeHit: 0
-  hitDiePool: 
-  extraDiePool: 
-  woundDiePool: 
+  attacksInput: {fileID: 2005977358}
+  skillInput: {fileID: 1791828919}
+  weaponStrInput: {fileID: 122011714}
+  targetToughnessInput: {fileID: 2095108790}
+  hitDie1: {fileID: 1191582037}
+  hitDie2: {fileID: 1787590273}
+  hitDie3: {fileID: 791449676}
+  hitDie4: {fileID: 1739210562}
+  hitDie5: {fileID: 1759516533}
+  hitDie6: {fileID: 789221921}
+  totalHits: {fileID: 469552451}
+  woundDie1: {fileID: 2099142201}
+  woundDie2: {fileID: 1365570487}
+  woundDie3: {fileID: 1395050595}
+  woundDie4: {fileID: 1915729306}
+  woundDie5: {fileID: 1447515004}
+  woundDie6: {fileID: 2125637409}
+  totalWounds: {fileID: 859233985}
 --- !u!1 &2095108790
 GameObject:
   m_ObjectHideFlags: 0
