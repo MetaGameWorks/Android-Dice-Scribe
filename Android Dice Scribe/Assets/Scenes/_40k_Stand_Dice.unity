@@ -549,7 +549,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &73181138
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1532,7 +1532,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &311140217
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9218,7 +9218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1838126819
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10287,6 +10287,13 @@ MonoBehaviour:
   woundDie5: {fileID: 1447515004}
   woundDie6: {fileID: 2125637409}
   totalWounds: {fileID: 859233985}
+  reRoll1HitButton: {fileID: 1922960552}
+  reRoll1sHitButton: {fileID: 1614205878}
+  reRollAllHitButton: {fileID: 442002691}
+  woundButton: {fileID: 30577454}
+  reRoll1WoundButton: {fileID: 73181137}
+  reRoll1sWoundButton: {fileID: 1838126818}
+  reRollAllWoundButton: {fileID: 311140216}
 --- !u!1 &2095108790
 GameObject:
   m_ObjectHideFlags: 0

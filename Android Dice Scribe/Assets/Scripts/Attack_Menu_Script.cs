@@ -29,11 +29,21 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject woundDie6;
     public GameObject totalWounds;
 
-    int attacks = 0;
-    int hit = 0;
-    int str = 0;
-    int toughness = 0;
-    int wound = 0;
+    // re-roll buttons to be disabled or enabled based on availability
+    public GameObject reRoll1HitButton;
+    public GameObject reRoll1sHitButton;
+    public GameObject reRollAllHitButton;
+    public GameObject woundButton;
+    public GameObject reRoll1WoundButton;
+    public GameObject reRoll1sWoundButton;
+    public GameObject reRollAllWoundButton;
+
+    public int numOfAttacks = 0;
+    public int toHit = 0;
+    public int numOfHits = 0;
+    public int weaponStr = 0;
+    public int targetToughness = 0;
+    public int toWound = 0;
 
     int[] hitDiePool = new int[6];
     int[] woundDiePool = new int[6];
@@ -42,26 +52,36 @@ public class Attack_Menu_Script : MonoBehaviour
     public void RollToHit()
     {
         // reset values to 0
-        // attacks,hit,str,toughness, wound = 0;
+        numOfAttacks = toHit = numOfHits = weaponStr = targetToughness = toWound = 0;
 
         // reset all arrays to 0 as not to keep previous rolls
         Array.Clear(hitDiePool, 0, 6);
         Array.Clear(woundDiePool, 0, 6);
         Array.Clear(reRollDiePool, 0, 6);
 
+        // set all of the auxillary buttons to disabled.
+        // they will be re-enabled as needed
+        reRoll1HitButton.SetActive(false);
+        reRoll1sHitButton.SetActive(false);
+        reRollAllHitButton.SetActive(false);
+        woundButton.SetActive(false);
+        reRoll1WoundButton.SetActive(false);
+        reRoll1sWoundButton.SetActive(false);
+        reRollAllWoundButton.SetActive(false);
+
         // Assigning vaules from the input fields
-        int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
-        int.TryParse(skillInput.GetComponent<Text>().text, out int hit);
-        int.TryParse(weaponStrInput.GetComponent<Text>().text, out int str);
-        int.TryParse(targetToughnessInput.GetComponent<Text>().text, out int toughness);
+        int.TryParse(attacksInput.GetComponent<Text>().text, out numOfAttacks);
+        int.TryParse(skillInput.GetComponent<Text>().text, out toHit);
+        int.TryParse(weaponStrInput.GetComponent<Text>().text, out weaponStr);
+        int.TryParse(targetToughnessInput.GetComponent<Text>().text, out targetToughness);
 
         
 
         // rolling function call
-        if (attacks > 0 && (hit > 0 && hit < 7))
+        if (numOfAttacks > 0 && (toHit > 0 && toHit < 7))
         {
             // rolls the dice
-            RollDice(attacks, hitDiePool);
+            RollDice(numOfAttacks, hitDiePool);
 
             // outputs the hit roll results
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
@@ -71,7 +91,8 @@ public class Attack_Menu_Script : MonoBehaviour
             hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
             hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
 
-            totalHits.GetComponent<Text>().text = "Hits: " + CountSuccesses(hit, hitDiePool);
+            numOfHits = CountSuccesses(toHit, hitDiePool);
+            totalHits.GetComponent<Text>().text = "Hits: " + numOfHits;
         }
     }
 
@@ -100,7 +121,7 @@ public class Attack_Menu_Script : MonoBehaviour
         Array.Clear(reRollDiePool, 0, 6);
 
         // rolls the dice
-        RollDice(attacks, woundDiePool);
+        RollDice(numOfHits, woundDiePool);
 
         // outputs the wound roll results
         woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
@@ -110,7 +131,7 @@ public class Attack_Menu_Script : MonoBehaviour
         woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
         woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
 
-        totalWounds.GetComponent<Text>().text = "Wounds: " + CountSuccesses(wound, woundDiePool);
+        totalWounds.GetComponent<Text>().text = "Wounds: " + CountSuccesses(toWound, woundDiePool);
     }
 
     // re-roll one failed wound roll for command point re-roll or other abilities
@@ -161,14 +182,14 @@ public class Attack_Menu_Script : MonoBehaviour
         int woundNum = 0;
 
         // Calculating the number needed to wound
-        if (str == toughness)
+        if (weaponStr == targetToughness)
         {
             // If the equal to, 4+ is needed to wound
             woundNum = 4;
         }
-        else if (str > toughness)
+        else if (weaponStr > targetToughness)
         {
-            if (str >= (toughness * 2))
+            if (weaponStr >= (targetToughness * 2))
             {
                 // if str is equal to or greater than double the toughness, 2+ is needed to wound
                 woundNum = 2;
@@ -181,7 +202,7 @@ public class Attack_Menu_Script : MonoBehaviour
         }
         else
         {
-            if (toughness >= (str * 2))
+            if (targetToughness >= (weaponStr * 2))
             {
                 // if toughness is equal to or greater than double the str, 6+ is needed to wound
                 woundNum = 6;
@@ -199,7 +220,7 @@ public class Attack_Menu_Script : MonoBehaviour
     //***************************************************************************************************************************************************************************************************
 
     // function to be called when the player hits the Attack! button
-    public void Attack()
+    /*public void Attack()
     {
         // Assigning vaules from the input fields
         int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
@@ -310,5 +331,5 @@ public class Attack_Menu_Script : MonoBehaviour
         // outputs the number of successful wounds
         totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
         Debug.Log(numOfWounds + " Wounds");
-    }
+    }*/
 }
