@@ -38,16 +38,17 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject reRoll1sWoundButton;
     public GameObject reRollAllWoundButton;
 
-    public int numOfAttacks = 0;
-    public int toHit = 0;
-    public int numOfHits = 0;
-    public int weaponStr = 0;
-    public int targetToughness = 0;
-    public int toWound = 0;
+    private int numOfAttacks = 0;
+    private int toHit = 0;
+    private int numOfHits = 0;
+    private int weaponStr = 0;
+    private int targetToughness = 0;
+    private int toWound = 0;
 
     int[] hitDiePool = new int[6];
     int[] woundDiePool = new int[6];
     int[] reRollDiePool = new int[6];
+
 
     public void RollToHit()
     {
@@ -75,31 +76,36 @@ public class Attack_Menu_Script : MonoBehaviour
         int.TryParse(weaponStrInput.GetComponent<Text>().text, out weaponStr);
         int.TryParse(targetToughnessInput.GetComponent<Text>().text, out targetToughness);
 
-        
+        // rolls the dice
+        RollDice(numOfAttacks, hitDiePool);
 
-        // rolling function call
-        if (numOfAttacks > 0 && (toHit > 0 && toHit < 7))
-        {
-            // rolls the dice
-            RollDice(numOfAttacks, hitDiePool);
+        // outputs the hit roll results
+        hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
+        hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
+        hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
+        hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
+        hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
+        hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
 
-            // outputs the hit roll results
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
-            hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
-            hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
-            hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
-            hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
-            hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
+        numOfHits = CountSuccesses(toHit, hitDiePool);
+        totalHits.GetComponent<Text>().text = "Hits: " + numOfHits;
 
-            numOfHits = CountSuccesses(toHit, hitDiePool);
-            totalHits.GetComponent<Text>().text = "Hits: " + numOfHits;
-        }
+        // as long as the number of hits is greater than 0, activate the wound button
+        if (numOfHits > 0) { woundButton.SetActive(true); }
+        // if there are any failed hits then activate re-roll 1 and re-roll all failed buttons
+        if (numOfHits > numOfAttacks) { reRoll1HitButton.SetActive(true); reRollAllHitButton.SetActive(true); }
+        // if there are any 1's activate the re-roll 1's button
+        if (hitDiePool[0] > 0) { reRoll1sHitButton.SetActive(true); }
     }
 
     // re-roll one failed hit roll for command point re-roll or other abilities
     public void ReRollOneHit()
     {
+        // code
+        // 
 
+        // if there are no more failed hits deactivate the re-roll 1 and re-roll all failed buttons
+        //if () { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
     }
 
     // re-roll all hit rolls of 1
