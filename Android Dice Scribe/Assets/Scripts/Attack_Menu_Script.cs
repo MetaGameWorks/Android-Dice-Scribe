@@ -41,6 +41,7 @@ public class Attack_Menu_Script : MonoBehaviour
     private int numOfAttacks = 0;
     private int toHit = 0;
     private int numOfHits = 0;
+    private int numOfWounds = 0;
     private int weaponStr = 0;
     private int targetToughness = 0;
     private int toWound = 0;
@@ -101,23 +102,39 @@ public class Attack_Menu_Script : MonoBehaviour
     // re-roll one failed hit roll for command point re-roll or other abilities
     public void ReRollOneHit()
     {
-        // code
-        // 
+        // roll the re-roll dice pool
+        RollDice(1, reRollDiePool);
+
+        // output results of the re-roll
+        
 
         // if there are no more failed hits deactivate the re-roll 1 and re-roll all failed buttons
-        //if () { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
+        if (CountFailures(toHit, hitDiePool) > 0) { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
     }
 
     // re-roll all hit rolls of 1
-    public void ReRollHitOf1()
+    public void ReRollHitsOf1()
     {
-        
+        // roll the re-roll dice pool
+        RollDice(hitDiePool[0], reRollDiePool);
+
+        // output results of the re-roll
+
+
+        //
     }
 
     // re-roll all failed hit rolls
     public void ReRollHitAllFails()
     {
+        // roll the re-roll dice pool
+        RollDice(toHit, reRollDiePool);
 
+        // output results of the re-roll
+
+
+        // if there are no more failed hits deactivate the re-roll 1 and re-roll all failed buttons
+        if (CountFailures(toHit, hitDiePool) > 0) { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
     }
 
     // roll to wound
@@ -137,7 +154,13 @@ public class Attack_Menu_Script : MonoBehaviour
         woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
         woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
 
-        totalWounds.GetComponent<Text>().text = "Wounds: " + CountSuccesses(toWound, woundDiePool);
+        numOfWounds = CountSuccesses(toWound, woundDiePool);
+        totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
+
+        // if there are any failed wounds then activate re-roll 1 and re-roll all failed buttons
+        if (numOfHits > numOfWounds) { reRoll1WoundButton.SetActive(true); reRollAllWoundButton.SetActive(true); }
+        // if there are any 1's activate the re-roll 1's button
+        if (woundDiePool[0] > 0) { reRoll1sWoundButton.SetActive(true); }
     }
 
     // re-roll one failed wound roll for command point re-roll or other abilities
@@ -147,7 +170,7 @@ public class Attack_Menu_Script : MonoBehaviour
     }
 
     // re-roll all wound rolls of 1
-    public void ReRollWoundOf1()
+    public void ReRollWoundsOf1()
     {
 
     }
@@ -180,6 +203,20 @@ public class Attack_Menu_Script : MonoBehaviour
         }
 
         return numOfSuc;
+    }
+
+    // takes a num and an arracy and returns an int
+    // the num is the upper limit to count the number of failed rolls in the dice array
+    public int CountFailures(int num, int[] dicePool)
+    {
+        int numOfFail = 0;
+
+        for (int i = 0; i < (num - 1); i++)
+        {
+            numOfFail += dicePool[i];
+        }
+
+        return numOfFail;
     }
 
     // calculates the wound value
@@ -221,6 +258,12 @@ public class Attack_Menu_Script : MonoBehaviour
         }
 
         return woundNum;
+    }
+
+    // searches a dice pool for the lowest failure and removes it
+    void RemoveLowestFail(int num, int[] dicePool)
+    {
+        // finds the lowest failed roll to re-roll
     }
 
     //***************************************************************************************************************************************************************************************************
