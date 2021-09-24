@@ -32,11 +32,11 @@ public class Attack_Menu_Script : MonoBehaviour
     // re-roll buttons to be disabled or enabled based on availability
     public GameObject reRoll1HitButton;
     public GameObject reRoll1sHitButton;
-    public GameObject reRollAllHitButton;
+    public GameObject reRollAllHitsButton;
     public GameObject woundButton;
     public GameObject reRoll1WoundButton;
     public GameObject reRoll1sWoundButton;
-    public GameObject reRollAllWoundButton;
+    public GameObject reRollAllWoundsButton;
 
     private int numOfAttacks = 0;
     private int toHit = 0;
@@ -65,11 +65,11 @@ public class Attack_Menu_Script : MonoBehaviour
         // they will be re-enabled as needed
         reRoll1HitButton.SetActive(false);
         reRoll1sHitButton.SetActive(false);
-        reRollAllHitButton.SetActive(false);
+        reRollAllHitsButton.SetActive(false);
         woundButton.SetActive(false);
         reRoll1WoundButton.SetActive(false);
         reRoll1sWoundButton.SetActive(false);
-        reRollAllWoundButton.SetActive(false);
+        reRollAllWoundsButton.SetActive(false);
 
         // Assigning vaules from the input fields
         int.TryParse(attacksInput.GetComponent<Text>().text, out numOfAttacks);
@@ -94,7 +94,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // as long as the number of hits is greater than 0, activate the wound button
         if (numOfHits > 0) { woundButton.SetActive(true); }
         // if there are any failed hits then activate re-roll 1 and re-roll all failed buttons
-        if (numOfHits > numOfAttacks) { reRoll1HitButton.SetActive(true); reRollAllHitButton.SetActive(true); }
+        if (numOfHits > numOfAttacks) { reRoll1HitButton.SetActive(true); reRollAllHitsButton.SetActive(true); }
         // if there are any 1's activate the re-roll 1's button
         if (hitDiePool[0] > 0) { reRoll1sHitButton.SetActive(true); }
     }
@@ -103,13 +103,21 @@ public class Attack_Menu_Script : MonoBehaviour
     public void ReRollOneHit()
     {
         // roll the re-roll dice pool
-        RollDice(1, reRollDiePool);
+        int oneDie = UnityEngine.Random.Range(0, 5);
+        reRollDiePool[oneDie]++;
+
+        // remove the lowest die from the dice pool
+        for(int i = 0; i < (toHit -1 ); i++)
+        {
+            if(hitDiePool[i] > 0)
+            {
+                hitDiePool[i]--;
+                break;
+            }
+        }
 
         // output results of the re-roll
-        
 
-        // if there are no more failed hits deactivate the re-roll 1 and re-roll all failed buttons
-        if (CountFailures(toHit, hitDiePool) > 0) { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
     }
 
     // re-roll all hit rolls of 1
@@ -118,23 +126,36 @@ public class Attack_Menu_Script : MonoBehaviour
         // roll the re-roll dice pool
         RollDice(hitDiePool[0], reRollDiePool);
 
+        // remove the 1's from the dice pool
+        hitDiePool[0] = 0;
+        // disable re-roll 1's button
+        reRoll1sHitButton.SetActive(false);
+        // if there are no more failed hits disable re-roll all failed hits and re-roll 1 hit button
+        if (CountFailures(toHit, hitDiePool) == 0) { reRollAllHitsButton.SetActive(false); reRoll1HitButton.SetActive(false); }
+
         // output results of the re-roll
-
-
-        //
+        
     }
 
     // re-roll all failed hit rolls
     public void ReRollHitAllFails()
     {
         // roll the re-roll dice pool
-        RollDice(toHit, reRollDiePool);
+        RollDice(CountFailures(toHit, hitDiePool), reRollDiePool);
+
+        // clear failed rolls from the dice pool
+        for (int i = 0; i < (toHit - 1); i++)
+        {
+            hitDiePool[i] = 0;
+        }
+
+        // disable re-roll buttons
+        reRoll1HitButton.SetActive(false);
+        reRoll1sHitButton.SetActive(false);
+        reRollAllHitsButton.SetActive(false);
 
         // output results of the re-roll
 
-
-        // if there are no more failed hits deactivate the re-roll 1 and re-roll all failed buttons
-        if (CountFailures(toHit, hitDiePool) > 0) { reRoll1HitButton.SetActive(false); reRollAllHitButton.SetActive(false); }
     }
 
     // roll to wound
@@ -158,7 +179,7 @@ public class Attack_Menu_Script : MonoBehaviour
         totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
 
         // if there are any failed wounds then activate re-roll 1 and re-roll all failed buttons
-        if (numOfHits > numOfWounds) { reRoll1WoundButton.SetActive(true); reRollAllWoundButton.SetActive(true); }
+        if (numOfHits > numOfWounds) { reRoll1WoundButton.SetActive(true); reRollAllWoundsButton.SetActive(true); }
         // if there are any 1's activate the re-roll 1's button
         if (woundDiePool[0] > 0) { reRoll1sWoundButton.SetActive(true); }
     }
