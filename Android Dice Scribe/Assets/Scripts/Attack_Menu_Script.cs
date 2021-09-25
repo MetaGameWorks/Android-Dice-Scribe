@@ -116,8 +116,20 @@ public class Attack_Menu_Script : MonoBehaviour
             }
         }
 
-        // output results of the re-roll
+        // deactivate buttons depending on the number of available failed rolls
+        if (CountFailures(toHit, hitDiePool) == 0)
+        {
+            reRoll1HitButton.SetActive(false);
+            reRoll1sHitButton.SetActive(false);
+            reRollAllHitsButton.SetActive(false);
+        }
+        else if (woundDiePool[0] == 0)
+        {
+            reRoll1sHitButton.SetActive(false);
+        }
 
+        // output results of the re-roll
+        PrintReRollHits();
     }
 
     // re-roll all hit rolls of 1
@@ -128,13 +140,14 @@ public class Attack_Menu_Script : MonoBehaviour
 
         // remove the 1's from the dice pool
         hitDiePool[0] = 0;
-        // disable re-roll 1's button
+        // disable re-roll 1's button and re-roll all hits
         reRoll1sHitButton.SetActive(false);
-        // if there are no more failed hits disable re-roll all failed hits and re-roll 1 hit button
-        if (CountFailures(toHit, hitDiePool) == 0) { reRollAllHitsButton.SetActive(false); reRoll1HitButton.SetActive(false); }
+        reRollAllHitsButton.SetActive(false);
+        // if there are no more failed hits disable re-roll 1 hit button
+        if (CountFailures(toHit, hitDiePool) == 0) { reRoll1HitButton.SetActive(false); }
 
         // output results of the re-roll
-        
+        PrintReRollHits();
     }
 
     // re-roll all failed hit rolls
@@ -155,17 +168,16 @@ public class Attack_Menu_Script : MonoBehaviour
         reRollAllHitsButton.SetActive(false);
 
         // output results of the re-roll
-
+        PrintReRollHits();
     }
 
     // roll to wound
     public void RollToWound()
     {
+        // rolls the dice
+        RollDice(numOfHits + CountSuccesses(toHit, reRollDiePool), woundDiePool);
         // clears the re-roll dice pool
         Array.Clear(reRollDiePool, 0, 6);
-
-        // rolls the dice
-        RollDice(numOfHits, woundDiePool);
 
         // outputs the wound roll results
         woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
@@ -187,19 +199,73 @@ public class Attack_Menu_Script : MonoBehaviour
     // re-roll one failed wound roll for command point re-roll or other abilities
     public void ReRollOneWound()
     {
+        // roll the re-roll dice pool
+        int oneDie = UnityEngine.Random.Range(0, 5);
+        reRollDiePool[oneDie]++;
 
+        // remove the lowest die from the dice pool
+        for (int i = 0; i < (toWound - 1); i++)
+        {
+            if (woundDiePool[i] > 0)
+            {
+                woundDiePool[i]--;
+                break;
+            }
+        }
+
+        // deactivate buttons depending on the number of available failed rolls
+        if(CountFailures(toWound, woundDiePool) == 0)
+        {
+            reRoll1WoundButton.SetActive(false);
+            reRoll1sWoundButton.SetActive(false);
+            reRollAllWoundsButton.SetActive(false);
+        }
+        else if(woundDiePool[0] == 0)
+        {
+            reRoll1sWoundButton.SetActive(false);
+        }
+
+        // output results of the re-roll
+        PrintReRollWounds();
     }
 
     // re-roll all wound rolls of 1
     public void ReRollWoundsOf1()
     {
+        // roll the re-roll dice pool
+        RollDice(woundDiePool[0], reRollDiePool);
 
+        // remove the 1's from the dice pool
+        woundDiePool[0] = 0;
+        // disable re-roll 1's button and re-roll all hits
+        reRoll1sWoundButton.SetActive(false);
+        reRollAllWoundsButton.SetActive(false);
+        // if there are no more failed hits disable re-roll 1 hit button
+        if (CountFailures(toWound, woundDiePool) == 0) { reRoll1WoundButton.SetActive(false); }
+
+        // output results of the re-roll
+        PrintReRollWounds();
     }
     
     // re-roll all failed wound rolls
     public void ReRollWoundAllFails()
     {
+        // roll the re-roll dice pool
+        RollDice(CountFailures(toWound, woundDiePool), reRollDiePool);
 
+        // clear failed rolls from the dice pool
+        for (int i = 0; i < (toWound - 1); i++)
+        {
+            woundDiePool[i] = 0;
+        }
+
+        // disable re-roll buttons
+        reRoll1WoundButton.SetActive(false);
+        reRoll1sWoundButton.SetActive(false);
+        reRollAllWoundsButton.SetActive(false);
+
+        // output results of the re-roll
+        PrintReRollWounds();
     }
 
     // takes a num and an array
@@ -281,10 +347,128 @@ public class Attack_Menu_Script : MonoBehaviour
         return woundNum;
     }
 
-    // searches a dice pool for the lowest failure and removes it
-    void RemoveLowestFail(int num, int[] dicePool)
+    // outputs the re-rolls to hit on the screen
+    void PrintReRollHits()
     {
-        // finds the lowest failed roll to re-roll
+        int num = CountSuccesses(toHit, reRollDiePool);
+
+        // outputs the wound roll results
+        if (num > 0)
+        {
+            numOfHits = CountSuccesses(toHit, woundDiePool);
+            totalHits.GetComponent<Text>().text = "Hits: " + numOfHits + " + " + num;
+        }
+        
+        if (reRollDiePool[0] > 0)
+        {
+           hitDie1.GetComponent<Text>().text = "" + hitDiePool[0] + " + " + reRollDiePool[0];
+        }
+        else
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
+        }
+        if (reRollDiePool[1] > 0)
+        {
+            hitDie2.GetComponent<Text>().text = "" + hitDiePool[1] + " + " + reRollDiePool[1];
+        }
+        else
+        {
+            hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
+        }
+        if (reRollDiePool[2] > 0)
+        {
+            hitDie3.GetComponent<Text>().text = "" + hitDiePool[2] + " + " + reRollDiePool[2];
+        }
+        else
+        {
+            hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
+        }
+        if (reRollDiePool[3] > 0)
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[3] + " + " + reRollDiePool[3];
+        }
+        else
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[3];
+        }
+        if (reRollDiePool[4] > 0)
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[4] + " + " + reRollDiePool[4];
+        }
+        else
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[4];
+        }
+        if (reRollDiePool[5] > 0)
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[5] + " + " + reRollDiePool[5];
+        }
+        else
+        {
+            hitDie1.GetComponent<Text>().text = "" + hitDiePool[5];
+        }
+    }
+
+    // outputs the re-rolls to wound on the screen
+    void PrintReRollWounds()
+    {
+        int num = CountSuccesses(toWound, reRollDiePool);
+
+        // outputs the wound roll results
+        if (num > 0)
+        {
+            numOfWounds = CountSuccesses(toWound, woundDiePool);
+            totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds + " + " + num;
+        }
+        
+        if(reRollDiePool[0] > 0)
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[0] + " + " + reRollDiePool[0];
+        }
+        else
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
+        }
+        if (reRollDiePool[1] > 0)
+        {
+            woundDie2.GetComponent<Text>().text = "" + woundDiePool[1] + " + " + reRollDiePool[1];
+        }
+        else
+        {
+            woundDie2.GetComponent<Text>().text = "" + woundDiePool[1];
+        }
+        if (reRollDiePool[2] > 0)
+        {
+            woundDie3.GetComponent<Text>().text = "" + woundDiePool[2] + " + " + reRollDiePool[2];
+        }
+        else
+        {
+            woundDie3.GetComponent<Text>().text = "" + woundDiePool[2];
+        }
+        if (reRollDiePool[3] > 0)
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[3] + " + " + reRollDiePool[3];
+        }
+        else
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[3];
+        }
+        if (reRollDiePool[4] > 0)
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[4] + " + " + reRollDiePool[4];
+        }
+        else
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[4];
+        }
+        if (reRollDiePool[5] > 0)
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[5] + " + " + reRollDiePool[5];
+        }
+        else
+        {
+            woundDie1.GetComponent<Text>().text = "" + woundDiePool[5];
+        }
     }
 
     //***************************************************************************************************************************************************************************************************
