@@ -50,7 +50,7 @@ public class Attack_Menu_Script : MonoBehaviour
     int[] woundDiePool = new int[6];
     int[] reRollDiePool = new int[6];
 
-
+    // Roll to hit!
     public void RollToHit()
     {
         // reset values to 0
@@ -102,8 +102,11 @@ public class Attack_Menu_Script : MonoBehaviour
     // re-roll one failed hit roll for command point re-roll or other abilities
     public void ReRollOneHit()
     {
+        // Debug
+        Debug.Log("Re-Roll One Hit");
+
         // roll the re-roll dice pool
-        int oneDie = UnityEngine.Random.Range(0, 5);
+        int oneDie = UnityEngine.Random.Range(0, 6);
         reRollDiePool[oneDie]++;
 
         // remove the lowest die from the dice pool
@@ -111,8 +114,15 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             if(hitDiePool[i] > 0)
             {
-                Console.WriteLine(i);
+                // Debug
+                //Debug.Log("The lowest dice roll is " + (i + 1));
+                //Debug.Log("There are " + hitDiePool[i] + " " + (i+1) + "s");
+
                 hitDiePool[i]--;
+
+                // Debug
+                //Debug.Log("There are " + hitDiePool[i] + " " + (i + 1) + "s");
+
                 break;
             }
         }
@@ -135,8 +145,12 @@ public class Attack_Menu_Script : MonoBehaviour
             if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
         }
 
+        Debug.Log("There are " + hitDiePool[0] + " 1s before the print");
+
         // output results of the re-roll
         PrintReRollHits();
+
+        Debug.Log("There are " + hitDiePool[0] + " 1s after the print");
     }
 
     // re-roll all hit rolls of 1
@@ -193,8 +207,12 @@ public class Attack_Menu_Script : MonoBehaviour
     // roll to wound
     public void RollToWound()
     {
+        Debug.Log("to hit: " + toHit);
+        // checks to see if there are extra hits to calculate, if there are add them to the number of hits
+        int extraHits = CountSuccesses(toHit, reRollDiePool);
+        if(extraHits > 0) { numOfHits += extraHits; }
         // rolls the dice
-        RollDice(numOfHits + CountSuccesses(toHit, reRollDiePool), woundDiePool);
+        RollDice(numOfHits, woundDiePool);
         // clears the re-roll dice pool
         Array.Clear(reRollDiePool, 0, 6);
 
@@ -206,6 +224,8 @@ public class Attack_Menu_Script : MonoBehaviour
         woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
         woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
 
+        // determine the number needed to wound
+        toWound = CalcWound();
         numOfWounds = CountSuccesses(toWound, woundDiePool);
         totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
 
@@ -219,7 +239,7 @@ public class Attack_Menu_Script : MonoBehaviour
     public void ReRollOneWound()
     {
         // roll the re-roll dice pool
-        int oneDie = UnityEngine.Random.Range(0, 5);
+        int oneDie = UnityEngine.Random.Range(0, 6);
         reRollDiePool[oneDie]++;
 
         // remove the lowest die from the dice pool
@@ -258,9 +278,8 @@ public class Attack_Menu_Script : MonoBehaviour
         woundDiePool[0] = 0;
         // disable re-roll 1's button and re-roll all hits
         reRoll1sWoundButton.SetActive(false);
-        reRollAllWoundsButton.SetActive(false);
         // if there are no more failed hits disable re-roll 1 hit button
-        if (CountFailures(toWound, woundDiePool) == 0) { reRoll1WoundButton.SetActive(false); }
+        if (CountFailures(toWound, woundDiePool) == 0) { reRoll1WoundButton.SetActive(false); reRollAllWoundsButton.SetActive(false); }
 
         // output results of the re-roll
         PrintReRollWounds();
@@ -293,7 +312,7 @@ public class Attack_Menu_Script : MonoBehaviour
     {
         for (int i = 0; i < num; i++)
         {
-            dicePool[UnityEngine.Random.Range(0, 5)]++;
+            dicePool[UnityEngine.Random.Range(0, 6)]++;
         }
     }
 
@@ -374,7 +393,6 @@ public class Attack_Menu_Script : MonoBehaviour
         // outputs the wound roll results
         if (num > 0)
         {
-            numOfHits = CountSuccesses(toHit, woundDiePool);
             totalHits.GetComponent<Text>().text = "Hits: " + numOfHits + " + " + num;
         }
         
@@ -407,29 +425,29 @@ public class Attack_Menu_Script : MonoBehaviour
 
         if (reRollDiePool[3] > 0)
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[3] + " + " + reRollDiePool[3];
+            hitDie4.GetComponent<Text>().text = "" + hitDiePool[3] + " + " + reRollDiePool[3];
         }
         else
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[3];
+            hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
         }
 
         if (reRollDiePool[4] > 0)
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[4] + " + " + reRollDiePool[4];
+            hitDie5.GetComponent<Text>().text = "" + hitDiePool[4] + " + " + reRollDiePool[4];
         }
         else
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[4];
+            hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
         }
 
         if (reRollDiePool[5] > 0)
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[5] + " + " + reRollDiePool[5];
+            hitDie6.GetComponent<Text>().text = "" + hitDiePool[5] + " + " + reRollDiePool[5];
         }
         else
         {
-            hitDie1.GetComponent<Text>().text = "" + hitDiePool[5];
+            hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
         }
     }
 
@@ -441,7 +459,6 @@ public class Attack_Menu_Script : MonoBehaviour
         // outputs the wound roll results
         if (num > 0)
         {
-            numOfWounds = CountSuccesses(toWound, woundDiePool);
             totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds + " + " + num;
         }
         
@@ -471,27 +488,27 @@ public class Attack_Menu_Script : MonoBehaviour
         }
         if (reRollDiePool[3] > 0)
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[3] + " + " + reRollDiePool[3];
+            woundDie4.GetComponent<Text>().text = "" + woundDiePool[3] + " + " + reRollDiePool[3];
         }
         else
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[3];
+            woundDie4.GetComponent<Text>().text = "" + woundDiePool[3];
         }
         if (reRollDiePool[4] > 0)
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[4] + " + " + reRollDiePool[4];
+            woundDie5.GetComponent<Text>().text = "" + woundDiePool[4] + " + " + reRollDiePool[4];
         }
         else
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[4];
+            woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
         }
         if (reRollDiePool[5] > 0)
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[5] + " + " + reRollDiePool[5];
+            woundDie6.GetComponent<Text>().text = "" + woundDiePool[5] + " + " + reRollDiePool[5];
         }
         else
         {
-            woundDie1.GetComponent<Text>().text = "" + woundDiePool[5];
+            woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
         }
     }
 
