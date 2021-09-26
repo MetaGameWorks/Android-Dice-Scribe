@@ -94,7 +94,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // as long as the number of hits is greater than 0, activate the wound button
         if (numOfHits > 0) { woundButton.SetActive(true); }
         // if there are any failed hits then activate re-roll 1 and re-roll all failed buttons
-        if (numOfHits > numOfAttacks) { reRoll1HitButton.SetActive(true); reRollAllHitsButton.SetActive(true); }
+        if (numOfHits < numOfAttacks) { reRoll1HitButton.SetActive(true); reRollAllHitsButton.SetActive(true); }
         // if there are any 1's activate the re-roll 1's button
         if (hitDiePool[0] > 0) { reRoll1sHitButton.SetActive(true); }
     }
@@ -111,6 +111,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             if(hitDiePool[i] > 0)
             {
+                Console.WriteLine(i);
                 hitDiePool[i]--;
                 break;
             }
@@ -123,9 +124,15 @@ public class Attack_Menu_Script : MonoBehaviour
             reRoll1sHitButton.SetActive(false);
             reRollAllHitsButton.SetActive(false);
         }
-        else if (woundDiePool[0] == 0)
+        else if (hitDiePool[0] == 0)
         {
             reRoll1sHitButton.SetActive(false);
+        }
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
+        {
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
         }
 
         // output results of the re-roll
@@ -145,6 +152,12 @@ public class Attack_Menu_Script : MonoBehaviour
         reRollAllHitsButton.SetActive(false);
         // if there are no more failed hits disable re-roll 1 hit button
         if (CountFailures(toHit, hitDiePool) == 0) { reRoll1HitButton.SetActive(false); }
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
+        {
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
+        }
 
         // output results of the re-roll
         PrintReRollHits();
@@ -166,6 +179,12 @@ public class Attack_Menu_Script : MonoBehaviour
         reRoll1HitButton.SetActive(false);
         reRoll1sHitButton.SetActive(false);
         reRollAllHitsButton.SetActive(false);
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
+        {
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
+        }
 
         // output results of the re-roll
         PrintReRollHits();
@@ -367,6 +386,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
         }
+
         if (reRollDiePool[1] > 0)
         {
             hitDie2.GetComponent<Text>().text = "" + hitDiePool[1] + " + " + reRollDiePool[1];
@@ -375,6 +395,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
         }
+
         if (reRollDiePool[2] > 0)
         {
             hitDie3.GetComponent<Text>().text = "" + hitDiePool[2] + " + " + reRollDiePool[2];
@@ -383,6 +404,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
         }
+
         if (reRollDiePool[3] > 0)
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[3] + " + " + reRollDiePool[3];
@@ -391,6 +413,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[3];
         }
+
         if (reRollDiePool[4] > 0)
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[4] + " + " + reRollDiePool[4];
@@ -399,6 +422,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[4];
         }
+
         if (reRollDiePool[5] > 0)
         {
             hitDie1.GetComponent<Text>().text = "" + hitDiePool[5] + " + " + reRollDiePool[5];
