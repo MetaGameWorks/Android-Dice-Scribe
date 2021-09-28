@@ -38,6 +38,17 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject reRoll1sWoundButton;
     public GameObject reRollAllWoundsButton;
 
+    // Extra menus in case the number of attacks are 1-to-1, D3, and D6
+    public GameObject attackMenu;
+    public GameObject hitResultMenu;
+    public GameObject d3AttacksMenu;
+    public GameObject d6AttacksMenu;
+    public GameObject d3Toggle;
+    public GameObject d6Toggle;
+    // bools for variant number of attacks
+    private enum VariantAttacks {Single, D3, D6 };
+    private VariantAttacks vAttacks = VariantAttacks.Single;
+
     private int numOfAttacks = 0;
     private int toHit = 0;
     private int numOfHits = 0;
@@ -50,11 +61,66 @@ public class Attack_Menu_Script : MonoBehaviour
     int[] woundDiePool = new int[6];
     int[] reRollDiePool = new int[6];
 
+    public void D3Toggle(bool toggle)
+    {
+        if(toggle)
+        {
+            vAttacks = VariantAttacks.D3;
+            d6Toggle.GetComponent<Toggle>().isOn = false;
+        }
+        else
+        {
+            vAttacks = VariantAttacks.Single;
+        }
+    }
+
+    public void D6Toggle(bool toggle)
+    {
+        if (toggle)
+        {
+            vAttacks = VariantAttacks.D6;
+            d3Toggle.GetComponent<Toggle>().isOn = false;
+        }
+        else
+        {
+            vAttacks = VariantAttacks.Single;
+        }
+    }
+
+    public void Go()
+    {
+        if(vAttacks == VariantAttacks.Single)
+        {
+            numOfAttacks = 0;
+            int.TryParse(attacksInput.GetComponent<Text>().text, out numOfAttacks);
+
+            RollToHit();
+        }
+        else if(vAttacks == VariantAttacks.D3)
+        {
+            CalcNumOfAttacksD3();
+        }
+        else
+        {
+            CalcNumOfAttacksD6();
+        }
+    }
+
+    public void CalcNumOfAttacksD3()
+    {
+
+    }
+
+    public void CalcNumOfAttacksD6()
+    {
+
+    }
+
     // Roll to hit!
     public void RollToHit()
     {
         // reset values to 0
-        numOfAttacks = toHit = numOfHits = weaponStr = targetToughness = toWound = 0;
+        toHit = numOfHits = weaponStr = targetToughness = toWound = 0;
 
         // reset all arrays to 0 as not to keep previous rolls
         Array.Clear(hitDiePool, 0, 6);
@@ -72,7 +138,6 @@ public class Attack_Menu_Script : MonoBehaviour
         reRollAllWoundsButton.SetActive(false);
 
         // Assigning vaules from the input fields
-        int.TryParse(attacksInput.GetComponent<Text>().text, out numOfAttacks);
         int.TryParse(skillInput.GetComponent<Text>().text, out toHit);
         int.TryParse(weaponStrInput.GetComponent<Text>().text, out weaponStr);
         int.TryParse(targetToughnessInput.GetComponent<Text>().text, out targetToughness);
