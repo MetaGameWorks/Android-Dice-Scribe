@@ -91,8 +91,13 @@ public class Attack_Menu_Script : MonoBehaviour
     {
         if(vAttacks == VariantAttacks.Single)
         {
+            // set number of attacks to the entry
             numOfAttacks = 0;
             int.TryParse(attacksInput.GetComponent<Text>().text, out numOfAttacks);
+
+            // change from the attack menu to the hit result menu
+            hitResultMenu.SetActive(true);
+            attackMenu.SetActive(false);
 
             RollToHit();
         }
