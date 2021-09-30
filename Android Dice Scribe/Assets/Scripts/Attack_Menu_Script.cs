@@ -29,6 +29,22 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject woundDie6;
     public GameObject totalWounds;
 
+    public GameObject d3Die1;
+    public GameObject d3Die2;
+    public GameObject d3Die3;
+    public GameObject d3Die4;
+    public GameObject d3Die5;
+    public GameObject d3Die6;
+    public GameObject d3TotalAttacks;
+
+    public GameObject d6Die1;
+    public GameObject d6Die2;
+    public GameObject d6Die3;
+    public GameObject d6Die4;
+    public GameObject d6Die5;
+    public GameObject d6Die6;
+    public GameObject d6TotalAttacks;
+
     // re-roll buttons to be disabled or enabled based on availability
     public GameObject reRoll1HitButton;
     public GameObject reRoll1sHitButton;
@@ -60,6 +76,7 @@ public class Attack_Menu_Script : MonoBehaviour
     int[] hitDiePool = new int[6];
     int[] woundDiePool = new int[6];
     int[] reRollDiePool = new int[6];
+    int[] variantAttacks = new int[6];
 
     public void D3Toggle(bool toggle)
     {
@@ -113,12 +130,54 @@ public class Attack_Menu_Script : MonoBehaviour
 
     public void CalcNumOfAttacksD3()
     {
+        int countDice = 0;
+        int total = 0;
+        Array.Clear(variantAttacks, 0, 6);
 
+        int.TryParse(attacksInput.GetComponent<Text>().text, out countDice);
+
+        // change menus
+        d3AttacksMenu.SetActive(true); 
+        attackMenu.SetActive(false);
+
+        RollDice(countDice, variantAttacks);
+
+        // outputs the hit roll results
+        d3Die1.GetComponent<Text>().text = "" + variantAttacks[0];
+        d3Die2.GetComponent<Text>().text = "" + variantAttacks[1];
+        d3Die3.GetComponent<Text>().text = "" + variantAttacks[2];
+        d3Die4.GetComponent<Text>().text = "" + variantAttacks[3];
+        d3Die5.GetComponent<Text>().text = "" + variantAttacks[4];
+        d3Die6.GetComponent<Text>().text = "" + variantAttacks[5];
+
+        total = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
+        d3TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + total;
     }
 
     public void CalcNumOfAttacksD6()
     {
+        int countDice = 0;
+        int total = 0;
+        Array.Clear(variantAttacks, 0, 6);
 
+        int.TryParse(attacksInput.GetComponent<Text>().text, out countDice);
+
+        // change menus
+        d6AttacksMenu.SetActive(true);
+        attackMenu.SetActive(false);
+
+        RollDice(countDice, variantAttacks);
+
+        // outputs the hit roll results
+        d6Die1.GetComponent<Text>().text = "" + variantAttacks[0];
+        d6Die2.GetComponent<Text>().text = "" + variantAttacks[1];
+        d6Die3.GetComponent<Text>().text = "" + variantAttacks[2];
+        d6Die4.GetComponent<Text>().text = "" + variantAttacks[3];
+        d6Die5.GetComponent<Text>().text = "" + variantAttacks[4];
+        d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
+
+        total = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
+        d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + total;
     }
 
     // Roll to hit!
@@ -581,120 +640,4 @@ public class Attack_Menu_Script : MonoBehaviour
             woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
         }
     }
-
-    //***************************************************************************************************************************************************************************************************
-
-    // function to be called when the player hits the Attack! button
-    /*public void Attack()
-    {
-        // Assigning vaules from the input fields
-        int.TryParse(attacksInput.GetComponent<Text>().text, out int attacks);
-        int.TryParse(skillInput.GetComponent<Text>().text, out int hit);
-        int.TryParse(weaponStrInput.GetComponent<Text>().text, out int str);
-        int.TryParse(targetToughnessInput.GetComponent<Text>().text, out int toughness);
-
-        Debug.Log("attacks: " + attacks);
-        Debug.Log("hit: " + hit);
-        Debug.Log("str: " + str);
-        Debug.Log("toughness: " + toughness);
-
-        // Calculating the number needed to wound
-        if (str == toughness)
-        {
-            // If the equal to, 4+ is needed to wound
-            wound = 4;
-        }
-        else if(str > toughness)
-        {
-            if(str >= (toughness*2))
-            {
-                // if str is equal to or greater than double the toughness, 2+ is needed to wound
-                wound = 2;
-            }
-            else
-            {
-                // if str is greater than but not qual to or greater than double the toughness, 3+ is needed to wound
-                wound = 3;
-            }
-        }
-        else
-        {
-            if (toughness >= (str * 2))
-            {
-                // if toughness is equal to or greater than double the str, 6+ is needed to wound
-                wound = 6;
-            }
-            else
-            {
-                // if toughness is greater than but not qual to or greater than double the str, 5+ is needed to wound
-                wound = 5;
-            }
-        }
-        Debug.Log("wound: " + wound);
-        // need to create catches to ensure that numbers were entered and that those numbers were within certain bounds
-
-        // rolling function call
-        if(attacks > 0 && (hit > 0 && hit < 7) && str > 0 && toughness > 0)
-        {
-            Roll(attacks, hit, wound);
-        }
-    }
-
-    public void Roll(int attacks, int hitReq, int woundReq)
-    {
-        // initializing to 0
-        hitDiePool = new int[6];
-        woundDiePool = new int[6];
-        int numOfHits = 0;
-        int numOfWounds = 0;
-
-        // rolling to hit
-        for (int i = 1; i <= attacks; i++)
-        {
-            hitDiePool[UnityEngine.Random.Range(0, 5)]++;
-        }
-
-        // outputs the hit roll results
-        hitDie1.GetComponent<Text>().text = "" + hitDiePool[0];
-        hitDie2.GetComponent<Text>().text = "" + hitDiePool[1];
-        hitDie3.GetComponent<Text>().text = "" + hitDiePool[2];
-        hitDie4.GetComponent<Text>().text = "" + hitDiePool[3];
-        hitDie5.GetComponent<Text>().text = "" + hitDiePool[4];
-        hitDie6.GetComponent<Text>().text = "" + hitDiePool[5];
-        Debug.Log("Hits - 6: " + hitDiePool[5] + " / 5: " + hitDiePool[4] + " / 4: " + hitDiePool[3] + " / 3: " + hitDiePool[2] + " / 2: " + hitDiePool[1] + " / 1: " + hitDiePool[0]);
-
-        // counts the successful hits
-        for (int i = 5; i >= (hitReq - 1); i--)
-        {
-            numOfHits += hitDiePool[i];
-        }
-
-        totalHits.GetComponent<Text>().text = "Hits: " + numOfHits;
-        Debug.Log(numOfHits + " Hits");
-
-        // rolling to wound
-        for (int i = 1; i <= numOfHits; i++)
-        {
-            woundDiePool[UnityEngine.Random.Range(0, 5)]++;
-        }
-
-        // outputs the wound roll results
-        woundDie1.GetComponent<Text>().text = "" + woundDiePool[0];
-        woundDie2.GetComponent<Text>().text = "" + woundDiePool[1];
-        woundDie3.GetComponent<Text>().text = "" + woundDiePool[2];
-        woundDie4.GetComponent<Text>().text = "" + woundDiePool[3];
-        woundDie5.GetComponent<Text>().text = "" + woundDiePool[4];
-        woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
-        Debug.Log("Wounds - 6: " + woundDiePool[5] + " / 5: " + woundDiePool[4] + " / 4: " + woundDiePool[3] + " / 3: " + woundDiePool[2] + " / 2: " + woundDiePool[1] + " / 1: " + woundDiePool[0]);
-
-        // counts the successful wounds
-        for (int i = 5; i >= (woundReq - 1); i--)
-        {
-            numOfWounds += woundDiePool[i];
-        }
-
-        // outputs the number of successful wounds
-        totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds;
-        Debug.Log(numOfWounds + " Wounds");
-    }*/
 }

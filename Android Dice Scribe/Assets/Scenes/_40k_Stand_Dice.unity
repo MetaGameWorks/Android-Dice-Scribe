@@ -15345,6 +15345,20 @@ MonoBehaviour:
   woundDie5: {fileID: 1447515004}
   woundDie6: {fileID: 2125637409}
   totalWounds: {fileID: 859233985}
+  d3Die1: {fileID: 540227874}
+  d3Die2: {fileID: 222590094}
+  d3Die3: {fileID: 630726719}
+  d3Die4: {fileID: 1992858398}
+  d3Die5: {fileID: 1805499966}
+  d3Die6: {fileID: 1071616268}
+  d3TotalAttacks: {fileID: 964260457}
+  d6Die1: {fileID: 988733912}
+  d6Die2: {fileID: 407996608}
+  d6Die3: {fileID: 267337570}
+  d6Die4: {fileID: 2007921863}
+  d6Die5: {fileID: 291351636}
+  d6Die6: {fileID: 57145116}
+  d6TotalAttacks: {fileID: 705907826}
   reRoll1HitButton: {fileID: 1922960552}
   reRoll1sHitButton: {fileID: 1614205878}
   reRollAllHitsButton: {fileID: 442002691}
@@ -15354,8 +15368,8 @@ MonoBehaviour:
   reRollAllWoundsButton: {fileID: 311140216}
   attackMenu: {fileID: 393849626}
   hitResultMenu: {fileID: 1255920506}
-  d3AttacksMenu: {fileID: 0}
-  d6AttacksMenu: {fileID: 0}
+  d3AttacksMenu: {fileID: 542243280}
+  d6AttacksMenu: {fileID: 793648401}
   d3Toggle: {fileID: 273937749}
   d6Toggle: {fileID: 1489552536}
 --- !u!1 &2095108790
