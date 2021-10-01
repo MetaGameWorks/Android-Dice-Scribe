@@ -53,6 +53,9 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject reRoll1WoundButton;
     public GameObject reRoll1sWoundButton;
     public GameObject reRollAllWoundsButton;
+    public GameObject reRollToAttackD3Button;
+    public GameObject reRollToAttackD6Button;
+
 
     // Extra menus in case the number of attacks are 1-to-1, D3, and D6
     public GameObject attackMenu;
@@ -157,7 +160,7 @@ public class Attack_Menu_Script : MonoBehaviour
     public void CalcNumOfAttacksD6()
     {
         int countDice = 0;
-        int total = 0;
+        numOfAttacks = 0;
         Array.Clear(variantAttacks, 0, 6);
 
         int.TryParse(attacksInput.GetComponent<Text>().text, out countDice);
@@ -176,8 +179,68 @@ public class Attack_Menu_Script : MonoBehaviour
         d6Die5.GetComponent<Text>().text = "" + variantAttacks[4];
         d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
 
-        total = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
-        d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + total;
+        numOfAttacks = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
+        d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
+    }
+
+    // re-roll rolls to attack
+    public void ReRollToAttackD3()
+    {
+        // add one die to the re-roll dice pool
+        int oneDie = UnityEngine.Random.Range(0, 6);
+        reRollDiePool[oneDie]++;
+
+        // re-roll lowest dice in the main dice pool
+        for (int i = 0; i < 6; i++)
+        {
+            if (variantAttacks[i] > 0)
+            {
+                variantAttacks[i]--;
+                break;
+            }
+        }
+
+        // print re-rolls
+        PrintReRollToAttackD3();
+
+        numOfAttacks = ((variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]))) + ((reRollDiePool[0] + reRollDiePool[1]) + (2 * (reRollDiePool[3] + reRollDiePool[4])) + (3 * (reRollDiePool[5] + reRollDiePool[6])));
+        d3TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
+
+        // if there are no more dice in the main dice pool deactivate the re-roll button
+        if (variantAttacks[0] == 0 && variantAttacks[1] == 0 && variantAttacks[2] == 0 && variantAttacks[3] == 0 && variantAttacks[4] == 0 && variantAttacks[5] == 0)
+        {
+            reRollToAttackD3Button.SetActive(false);
+        }
+    }
+
+    // re-roll rolls to attack
+    public void ReRollToAttackD6()
+    {
+        // add one die to the re-roll dice pool
+        int oneDie = UnityEngine.Random.Range(0, 6);
+        reRollDiePool[oneDie]++;
+
+        // re-roll lowest dice in the main dice pool
+        for (int i = 0; i < 6; i++)
+        {
+            if (variantAttacks[i] > 0)
+            {
+                variantAttacks[i]--;
+                break;
+            }
+        }
+
+        // print re-rolls
+        PrintReRollToAttackD6();
+
+        numOfAttacks = ((variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]))) + ((reRollDiePool[0] + reRollDiePool[1]) + (2 * (reRollDiePool[3] + reRollDiePool[4])) + (3 * (reRollDiePool[5] + reRollDiePool[6])));
+        d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
+
+        // if there are no more dice in the main dice pool deactivate the re-roll button
+        if (variantAttacks[0] == 0 && variantAttacks[1] == 0 && variantAttacks[2] == 0 && variantAttacks[3] == 0 && variantAttacks[4] == 0 && variantAttacks[5] == 0)
+        {
+            reRollToAttackD6Button.SetActive(false);
+        }
     }
 
     // Roll to hit!
@@ -243,15 +306,7 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             if(hitDiePool[i] > 0)
             {
-                // Debug
-                //Debug.Log("The lowest dice roll is " + (i + 1));
-                //Debug.Log("There are " + hitDiePool[i] + " " + (i+1) + "s");
-
                 hitDiePool[i]--;
-
-                // Debug
-                //Debug.Log("There are " + hitDiePool[i] + " " + (i + 1) + "s");
-
                 break;
             }
         }
@@ -638,6 +693,110 @@ public class Attack_Menu_Script : MonoBehaviour
         else
         {
             woundDie6.GetComponent<Text>().text = "" + woundDiePool[5];
+        }
+    }
+
+    public void PrintReRollToAttackD3()
+    {
+        if (reRollDiePool[0] > 0)
+        {
+            d3Die1.GetComponent<Text>().text = "" + variantAttacks[0] + " + " + reRollDiePool[0];
+        }
+        else
+        {
+            d3Die1.GetComponent<Text>().text = "" + variantAttacks[0];
+        }
+        if (reRollDiePool[1] > 0)
+        {
+            d3Die2.GetComponent<Text>().text = "" + variantAttacks[1] + " + " + reRollDiePool[1];
+        }
+        else
+        {
+            d3Die2.GetComponent<Text>().text = "" + variantAttacks[1];
+        }
+        if (reRollDiePool[2] > 0)
+        {
+            d3Die3.GetComponent<Text>().text = "" + variantAttacks[2] + " + " + reRollDiePool[2];
+        }
+        else
+        {
+            d3Die3.GetComponent<Text>().text = "" + variantAttacks[2];
+        }
+        if (reRollDiePool[3] > 0)
+        {
+            d3Die4.GetComponent<Text>().text = "" + variantAttacks[3] + " + " + reRollDiePool[3];
+        }
+        else
+        {
+            d3Die4.GetComponent<Text>().text = "" + variantAttacks[3];
+        }
+        if (reRollDiePool[4] > 0)
+        {
+            d3Die5.GetComponent<Text>().text = "" + variantAttacks[4] + " + " + reRollDiePool[4];
+        }
+        else
+        {
+            d3Die5.GetComponent<Text>().text = "" + variantAttacks[4];
+        }
+        if (reRollDiePool[5] > 0)
+        {
+            d3Die6.GetComponent<Text>().text = "" + variantAttacks[5] + " + " + reRollDiePool[5];
+        }
+        else
+        {
+            d3Die6.GetComponent<Text>().text = "" + variantAttacks[5];
+        }
+    }
+
+    public void PrintReRollToAttackD6()
+    {
+        if (reRollDiePool[0] > 0)
+        {
+            d6Die1.GetComponent<Text>().text = "" + variantAttacks[0] + " + " + reRollDiePool[0];
+        }
+        else
+        {
+            d6Die1.GetComponent<Text>().text = "" + variantAttacks[0];
+        }
+        if (reRollDiePool[1] > 0)
+        {
+            d6Die2.GetComponent<Text>().text = "" + variantAttacks[1] + " + " + reRollDiePool[1];
+        }
+        else
+        {
+            d6Die2.GetComponent<Text>().text = "" + variantAttacks[1];
+        }
+        if (reRollDiePool[2] > 0)
+        {
+            d6Die3.GetComponent<Text>().text = "" + variantAttacks[2] + " + " + reRollDiePool[2];
+        }
+        else
+        {
+            d6Die3.GetComponent<Text>().text = "" + variantAttacks[2];
+        }
+        if (reRollDiePool[3] > 0)
+        {
+            d6Die4.GetComponent<Text>().text = "" + variantAttacks[3] + " + " + reRollDiePool[3];
+        }
+        else
+        {
+            d6Die4.GetComponent<Text>().text = "" + variantAttacks[3];
+        }
+        if (reRollDiePool[4] > 0)
+        {
+            d6Die5.GetComponent<Text>().text = "" + variantAttacks[4] + " + " + reRollDiePool[4];
+        }
+        else
+        {
+            d6Die5.GetComponent<Text>().text = "" + variantAttacks[4];
+        }
+        if (reRollDiePool[5] > 0)
+        {
+            d6Die6.GetComponent<Text>().text = "" + variantAttacks[5] + " + " + reRollDiePool[5];
+        }
+        else
+        {
+            d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
         }
     }
 }
