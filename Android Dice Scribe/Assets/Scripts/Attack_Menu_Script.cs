@@ -87,10 +87,12 @@ public class Attack_Menu_Script : MonoBehaviour
         {
             vAttacks = VariantAttacks.D3;
             d6Toggle.GetComponent<Toggle>().isOn = false;
+            Debug.Log("The toggle is on: " + vAttacks);
         }
         else
         {
             vAttacks = VariantAttacks.Single;
+            Debug.Log("The toggle is off: " + vAttacks);
         }
     }
 
@@ -134,8 +136,9 @@ public class Attack_Menu_Script : MonoBehaviour
     public void CalcNumOfAttacksD3()
     {
         int countDice = 0;
-        int total = 0;
+        numOfAttacks = 0;
         Array.Clear(variantAttacks, 0, 6);
+        Array.Clear(reRollDiePool, 0, 6);
 
         int.TryParse(attacksInput.GetComponent<Text>().text, out countDice);
 
@@ -153,8 +156,8 @@ public class Attack_Menu_Script : MonoBehaviour
         d3Die5.GetComponent<Text>().text = "" + variantAttacks[4];
         d3Die6.GetComponent<Text>().text = "" + variantAttacks[5];
 
-        total = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
-        d3TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + total;
+        numOfAttacks = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[2] + variantAttacks[3])) + (3 * (variantAttacks[4] + variantAttacks[5]));
+        d3TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
     }
 
     public void CalcNumOfAttacksD6()
@@ -162,6 +165,7 @@ public class Attack_Menu_Script : MonoBehaviour
         int countDice = 0;
         numOfAttacks = 0;
         Array.Clear(variantAttacks, 0, 6);
+        Array.Clear(reRollDiePool, 0, 6);
 
         int.TryParse(attacksInput.GetComponent<Text>().text, out countDice);
 
@@ -179,7 +183,7 @@ public class Attack_Menu_Script : MonoBehaviour
         d6Die5.GetComponent<Text>().text = "" + variantAttacks[4];
         d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
 
-        numOfAttacks = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]));
+        numOfAttacks = variantAttacks[0] + (variantAttacks[1]*2) + (variantAttacks[2]*3) + (variantAttacks[3]*4) + (variantAttacks[4]*5) + (variantAttacks[5]*6);
         d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
     }
 
@@ -203,7 +207,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // print re-rolls
         PrintReRollToAttackD3();
 
-        numOfAttacks = ((variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]))) + ((reRollDiePool[0] + reRollDiePool[1]) + (2 * (reRollDiePool[3] + reRollDiePool[4])) + (3 * (reRollDiePool[5] + reRollDiePool[6])));
+        numOfAttacks = ((variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[2] + variantAttacks[3])) + (3 * (variantAttacks[4] + variantAttacks[5]))) + ((reRollDiePool[0] + reRollDiePool[1]) + (2 * (reRollDiePool[2] + reRollDiePool[3])) + (3 * (reRollDiePool[4] + reRollDiePool[5])));
         d3TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
 
         // if there are no more dice in the main dice pool deactivate the re-roll button
@@ -233,7 +237,7 @@ public class Attack_Menu_Script : MonoBehaviour
         // print re-rolls
         PrintReRollToAttackD6();
 
-        numOfAttacks = ((variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[3] + variantAttacks[4])) + (3 * (variantAttacks[5] + variantAttacks[6]))) + ((reRollDiePool[0] + reRollDiePool[1]) + (2 * (reRollDiePool[3] + reRollDiePool[4])) + (3 * (reRollDiePool[5] + reRollDiePool[6])));
+        numOfAttacks = (variantAttacks[0] + (variantAttacks[1] * 2) + (variantAttacks[2] * 3) + (variantAttacks[3] * 4) + (variantAttacks[4] * 5) + (variantAttacks[5] * 6)) + (reRollDiePool[0] + (reRollDiePool[1] * 2) + (reRollDiePool[2] * 3) + (reRollDiePool[3] * 4) + (reRollDiePool[4] * 5) + (reRollDiePool[5] * 6));
         d6TotalAttacks.GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
 
         // if there are no more dice in the main dice pool deactivate the re-roll button
