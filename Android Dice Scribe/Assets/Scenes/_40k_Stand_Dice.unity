@@ -6251,7 +6251,7 @@ GameObject:
   - component: {fileID: 715756745}
   - component: {fileID: 715756744}
   m_Layer: 5
-  m_Name: Wound!
+  m_Name: Attack!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6321,7 +6321,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1025855442}
+      - m_Target: {fileID: 1255920506}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -6347,7 +6347,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2078066378}
         m_TargetAssemblyTypeName: Attack_Menu_Script, Assembly-CSharp
-        m_MethodName: RollToWound
+        m_MethodName: RollToHit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8935,7 +8935,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Wound!
+  m_Text: 'Attack!
 
 '
 --- !u!222 &1026264265
@@ -12068,7 +12068,7 @@ GameObject:
   - component: {fileID: 1593120556}
   - component: {fileID: 1593120555}
   m_Layer: 5
-  m_Name: Wound!
+  m_Name: Attack!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12138,7 +12138,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1025855442}
+      - m_Target: {fileID: 1255920506}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -12736,9 +12736,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Wound!
-
-'
+  m_Text: Attack!
 --- !u!222 &1682425776
 CanvasRenderer:
   m_ObjectHideFlags: 0
