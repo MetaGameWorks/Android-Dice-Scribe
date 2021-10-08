@@ -7554,7 +7554,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2078066378}
         m_TargetAssemblyTypeName: Attack_Menu_Script, Assembly-CSharp
-        m_MethodName: ReRollOneHit
+        m_MethodName: ReRollToAttackD3
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12545,7 +12545,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2078066378}
         m_TargetAssemblyTypeName: Attack_Menu_Script, Assembly-CSharp
-        m_MethodName: ReRollOneHit
+        m_MethodName: ReRollToAttackD6
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

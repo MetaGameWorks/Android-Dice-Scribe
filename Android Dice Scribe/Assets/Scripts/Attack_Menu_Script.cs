@@ -127,7 +127,7 @@ public class Attack_Menu_Script : MonoBehaviour
         int.TryParse(targetToughnessInput.GetComponent<Text>().text, out targetToughness);
 
         // verify that the inputs are within correct ranges
-        if (numOfAttacks > 0 && (toHit > 0 && toHit >= 6 ))
+        if (numOfAttacks > 0 && (toHit > 0 && toHit <= 6 ))
         {
             if (vAttacks == VariantAttacks.Single)
             {
