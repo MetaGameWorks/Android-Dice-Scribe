@@ -45,6 +45,13 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject d6Die6;
     public GameObject d6TotalAttacks;
 
+    public GameObject miscDie1;
+    public GameObject miscDie2;
+    public GameObject miscDie3;
+    public GameObject miscDie4;
+    public GameObject miscDie5;
+    public GameObject miscDie6;
+
     // re-roll buttons to be disabled or enabled based on availability
     public GameObject reRoll1HitButton;
     public GameObject reRoll1sHitButton;
