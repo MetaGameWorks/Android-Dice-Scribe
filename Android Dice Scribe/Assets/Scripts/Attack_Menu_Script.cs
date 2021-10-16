@@ -11,6 +11,7 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject skillInput;
     public GameObject weaponStrInput;
     public GameObject targetToughnessInput;
+    public GameObject miscDiceInput;
 
     // variables for the results fields
     public GameObject hitDie1;
@@ -62,7 +63,10 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject reRollAllWoundsButton;
     public GameObject reRollToAttackD3Button;
     public GameObject reRollToAttackD6Button;
+    public GameObject rollMiscButton;
 
+    public GameObject miscMenu;
+    public GameObject miscResultMenu;
 
     // Extra menus in case the number of attacks are 1-to-1, D3, and D6
     public GameObject attackMenu;
@@ -82,11 +86,42 @@ public class Attack_Menu_Script : MonoBehaviour
     private int weaponStr = 0;
     private int targetToughness = 0;
     private int toWound = 0;
+    private int numOfMisc = 0;
 
     int[] hitDiePool = new int[6];
     int[] woundDiePool = new int[6];
     int[] reRollDiePool = new int[6];
     int[] variantAttacks = new int[6];
+    int[] miscDiePool = new int[6];
+
+    // roll misc dice
+    public void MiscDiceRoll()
+    {
+        // initialize values
+        numOfMisc = 0;
+        Array.Clear(miscDiePool, 0, 6);
+
+        // set the value of the input value to the variable
+        int.TryParse(miscDiceInput.GetComponent<Text>().text, out numOfMisc);
+
+        if (numOfMisc > 0)
+        {
+            // roll misc dice
+            RollDice(numOfMisc, miscDiePool);
+
+            // outputs the misc roll results
+            miscDie1.GetComponent<Text>().text = "" + miscDiePool[0];
+            miscDie2.GetComponent<Text>().text = "" + miscDiePool[1];
+            miscDie3.GetComponent<Text>().text = "" + miscDiePool[2];
+            miscDie4.GetComponent<Text>().text = "" + miscDiePool[3];
+            miscDie5.GetComponent<Text>().text = "" + miscDiePool[4];
+            miscDie6.GetComponent<Text>().text = "" + miscDiePool[5];
+
+            // change menus
+            miscResultMenu.SetActive(true);
+            miscMenu.SetActive(false);
+        }
+    }
 
     public void D3Toggle(bool toggle)
     {
