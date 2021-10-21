@@ -88,11 +88,11 @@ public class Attack_Menu_Script : MonoBehaviour
     private int toWound = 0;
     private int numOfMisc = 0;
 
-    int[] hitDiePool = new int[6];
-    int[] woundDiePool = new int[6];
-    int[] reRollDiePool = new int[6];
-    int[] variantAttacks = new int[6];
-    int[] miscDiePool = new int[6];
+    private int[] hitDiePool = new int[6];
+    private int[] woundDiePool = new int[6];
+    private int[] reRollDiePool = new int[6];
+    private int[] variantAttacks = new int[6];
+    private int[] miscDiePool = new int[6];
 
     // roll misc dice
     public void MiscDiceRoll()
