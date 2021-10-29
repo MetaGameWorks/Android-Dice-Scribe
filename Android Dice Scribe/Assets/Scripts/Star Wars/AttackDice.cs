@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Linq;
 
@@ -11,14 +12,18 @@ public class AttackDice : MonoBehaviour
     public GameObject attackResultMenu;
 
     // variables for the input fields
-    public GameObject whiteAttackInput;
-    public GameObject blackAttackInput;
-    public GameObject redAttackInput;
+    public GameObject whiteAttackInputText;
+    public GameObject blackAttackInputText;
+    public GameObject redAttackInputText;
     // variables for the attack result menu
-    public GameObject numOfCritsOutput;
-    public GameObject numOfHitsOutput;
-    public GameObject numOfSurgesOutput;
-    public GameObject numOfBlanksOutput;
+    public GameObject numOfCritsOutputText;
+    public GameObject numOfHitsOutputText;
+    public GameObject numOfSurgesOutputText;
+    public GameObject numOfBlanksOutputText;
+    public GameObject critColorText;
+    public GameObject hitColorText;
+    public GameObject surgeColorText;
+    public GameObject blankColorText;
 
     // variables to hold the input values
     private int numOfWhiteAttackDice;
@@ -65,6 +70,19 @@ public class AttackDice : MonoBehaviour
     private int numOfReRollRedSurges;
     private int numOfReRollRedBlanks;
 
+    private bool whiteInCritPool;
+    private bool whiteInHitPool;
+    private bool whiteInSurgePool;
+    private bool whiteInBlankPool;
+    private bool blackInCritPool;
+    private bool blackInHitPool;
+    private bool blackInSurgePool;
+    private bool blackInBlankPool;
+    private bool redInCritPool;
+    private bool redInHitPool;
+    private bool redInSurgePool;
+    private bool redInBlankPool;
+
     public void Attack()
     {
         // initialize values
@@ -76,11 +94,14 @@ public class AttackDice : MonoBehaviour
         Array.Clear(reRollWhiteAttackDiePool, 0, 8);
         Array.Clear(reRollBlackAttackDiePool, 0, 8);
         Array.Clear(reRollRedAttackDiePool, 0, 8);
+        whiteInCritPool = whiteInHitPool = whiteInSurgePool = whiteInBlankPool = false;
+        blackInCritPool = blackInHitPool = blackInSurgePool = blackInBlankPool = false;
+        redInCritPool = redInHitPool = redInSurgePool = redInBlankPool = false;
 
         // assign values from the input fields
-        //int.TryParse(whiteAttackInput.GetComponent<Text>().text, out numOfWhiteAttackDice);
-        //int.TryParse(blackAttackInput.GetComponent<Text>().text, out numOfBlackAttackDice);
-        //int.TryParse(redAttackInput.GetComponent<Text>().text, out numOfRedAttackDice);
+        int.TryParse(whiteAttackInputText.GetComponent<Text>().text, out numOfWhiteAttackDice);
+        int.TryParse(blackAttackInputText.GetComponent<Text>().text, out numOfBlackAttackDice);
+        int.TryParse(redAttackInputText.GetComponent<Text>().text, out numOfRedAttackDice);
 
         // don't roll dice if there were none selected
         if (numOfWhiteAttackDice > 0 || numOfBlackAttackDice > 0 || numOfRedAttackDice > 0)
@@ -97,10 +118,26 @@ public class AttackDice : MonoBehaviour
                 numOfWhiteBlanks = whiteAttackDiePool[4] + whiteAttackDiePool[3] + whiteAttackDiePool[2] + whiteAttackDiePool[1] + whiteAttackDiePool[0];
 
                 // total results
-                totalNumOfCrits += numOfWhiteCrits;
-                totalNumOfHits += numOfWhiteHits;
-                totalNumOfSurges += numOfWhiteSurges;
-                totalNumOfBlanks += numOfWhiteBlanks;
+                if(numOfWhiteCrits > 0)
+                {
+                    totalNumOfCrits += numOfWhiteCrits;
+                    whiteInCritPool = true;
+                }
+                if(numOfWhiteHits > 0)
+                {
+                    totalNumOfHits += numOfWhiteHits;
+                    whiteInHitPool = true;
+                }
+                if(numOfWhiteSurges > 0)
+                {
+                    totalNumOfSurges += numOfWhiteSurges;
+                    whiteInSurgePool = true;
+                }
+                if(numOfWhiteBlanks > 0)
+                {
+                    totalNumOfBlanks += numOfWhiteBlanks;
+                    whiteInBlankPool = false;
+                }
             }
 
             if(numOfBlackAttackDice > 0)
@@ -114,10 +151,26 @@ public class AttackDice : MonoBehaviour
                 numOfBlackBlanks = blackAttackDiePool[2] + blackAttackDiePool[1] + blackAttackDiePool[0];
 
                 // total results
-                totalNumOfCrits += numOfBlackCrits;
-                totalNumOfHits += numOfBlackHits;
-                totalNumOfSurges += numOfBlackSurges;
-                totalNumOfBlanks += numOfBlackBlanks;
+                if(numOfBlackCrits > 0)
+                {
+                    totalNumOfCrits += numOfBlackCrits;
+                    blackInCritPool = true;
+                }
+                if(numOfBlackHits > 0)
+                {
+                    totalNumOfHits += numOfBlackHits;
+                    blackInHitPool = true;
+                }
+                if (numOfBlackSurges > 0)
+                {
+                    totalNumOfSurges += numOfBlackSurges;
+                    blackInSurgePool = true;
+                }
+                if (numOfBlackBlanks > 0)
+                {
+                    totalNumOfBlanks += numOfBlackBlanks;
+                    blackInBlankPool = true;
+                }
             }
 
             if(numOfRedAttackDice > 0)
@@ -131,17 +184,33 @@ public class AttackDice : MonoBehaviour
                 numOfRedBlanks = redAttackDiePool[0];
 
                 // total results
-                totalNumOfCrits += numOfRedCrits;
-                totalNumOfHits += numOfRedHits;
-                totalNumOfSurges += numOfRedSurges;
-                totalNumOfBlanks += numOfRedBlanks;
+                if(numOfRedCrits > 0)
+                {
+                    totalNumOfCrits += numOfRedCrits;
+                    redInCritPool = true;
+                }
+                if (numOfRedHits > 0)
+                {
+                    totalNumOfHits += numOfRedHits;
+                    redInHitPool = true;
+                }
+                if (numOfRedSurges > 0)
+                {
+                    totalNumOfSurges += numOfRedSurges;
+                    redInSurgePool = true;
+                }
+                if (numOfRedBlanks > 0)
+                {
+                    totalNumOfBlanks += numOfRedBlanks;
+                    redInBlankPool = true;
+                }
             }
 
             // print results
-            //numOfCritsOutput.GetComponent<Text>().text = "" + totalNumOfCrits;
-            //numOfHitsOutput.GetComponent<Text>().text = "" + totalNumOfHits;
-            //numOfSurgesOutput.GetComponent<Text>().text = "" + totalNumOfSurges;
-            //numOfBlanksOutput.GetComponent<Text>().text = "" + totalNumOfBlanks;
+            numOfCritsOutputText.GetComponent<Text>().text = "" + totalNumOfCrits;
+            numOfHitsOutputText.GetComponent<Text>().text = "" + totalNumOfHits;
+            numOfSurgesOutputText.GetComponent<Text>().text = "" + totalNumOfSurges;
+            numOfBlanksOutputText.GetComponent<Text>().text = "" + totalNumOfBlanks;
 
             // change menus
             attackResultMenu.SetActive(true);
