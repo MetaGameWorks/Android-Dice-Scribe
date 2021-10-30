@@ -211,6 +211,7 @@ public class AttackDice : MonoBehaviour
             numOfHitsOutputText.GetComponent<Text>().text = "" + totalNumOfHits;
             numOfSurgesOutputText.GetComponent<Text>().text = "" + totalNumOfSurges;
             numOfBlanksOutputText.GetComponent<Text>().text = "" + totalNumOfBlanks;
+            SetColorText();
 
             // change menus
             attackResultMenu.SetActive(true);
@@ -249,5 +250,172 @@ public class AttackDice : MonoBehaviour
     {
         // print re-rolls
 
+    }
+
+    public void SetColorText()
+    {
+        // set crit color text
+        if(whiteInCritPool == true && blackInCritPool == true && redInCritPool == true)
+        {
+            // crit color text is WBR
+            critColorText.GetComponent<Text>().text = "WBR";
+        }
+        else if(whiteInCritPool == true && blackInCritPool == true && redInCritPool == false)
+        {
+            // crit color text is WB
+            critColorText.GetComponent<Text>().text = "WB";
+        }
+        else if(whiteInCritPool == true && blackInCritPool == false && redInCritPool == false)
+        {
+            // crit color text is W
+            critColorText.GetComponent<Text>().text = "W";
+        }
+        else if(whiteInCritPool == true && blackInCritPool == false && redInCritPool == true)
+        {
+            // crit color text is WR
+            critColorText.GetComponent<Text>().text = "WR";
+        }
+        else if(whiteInCritPool == false && blackInCritPool == true && redInCritPool == true)
+        {
+            // crit color text is BR
+            critColorText.GetComponent<Text>().text = "BR";
+        }
+        else if(whiteInCritPool == false && blackInCritPool == true && redInCritPool == false)
+        {
+            // crit color text is B
+            critColorText.GetComponent<Text>().text = "B";
+        }
+        else if(whiteInCritPool == false && blackInCritPool == false && redInCritPool == true)
+        {
+            // crit color text is R
+            critColorText.GetComponent<Text>().text = "R";
+        }
+        else
+        {
+            critColorText.GetComponent<Text>().text = "";
+        }
+
+        // set hit color text
+        if (whiteInHitPool == true && blackInHitPool == true && redInHitPool == true)
+        {
+            // hit color text is WBR
+            hitColorText.GetComponent<Text>().text = "WBR";
+        }
+        else if (whiteInHitPool == true && blackInHitPool == true && redInHitPool == false)
+        {
+            // hit color text is WB
+            hitColorText.GetComponent<Text>().text = "WB";
+        }
+        else if (whiteInHitPool == true && blackInHitPool == false && redInHitPool == false)
+        {
+            // hit color text is W
+            hitColorText.GetComponent<Text>().text = "W";
+        }
+        else if (whiteInHitPool == true && blackInHitPool == false && redInHitPool == true)
+        {
+            // hit color text is WR
+            hitColorText.GetComponent<Text>().text = "WR";
+        }
+        else if (whiteInHitPool == false && blackInHitPool == true && redInHitPool == true)
+        {
+            // hit color text is BR
+            hitColorText.GetComponent<Text>().text = "BR";
+        }
+        else if (whiteInHitPool == false && blackInHitPool == true && redInHitPool == false)
+        {
+            // hit color text is B
+            hitColorText.GetComponent<Text>().text = "B";
+        }
+        else if (whiteInHitPool == false && blackInHitPool == false && redInHitPool == true)
+        {
+            // hit color text is R
+            hitColorText.GetComponent<Text>().text = "R";
+        }
+        else
+        {
+            hitColorText.GetComponent<Text>().text = "";
+        }
+
+        // set surge color text
+        if (whiteInSurgePool == true && blackInSurgePool == true && redInSurgePool == true)
+        {
+            // surge color text is WBR
+            surgeColorText.GetComponent<Text>().text = "WBR";
+        }
+        else if (whiteInSurgePool == true && blackInSurgePool == true && redInSurgePool == false)
+        {
+            // surge color text is WB
+            surgeColorText.GetComponent<Text>().text = "WB";
+        }
+        else if (whiteInSurgePool == true && blackInSurgePool == false && redInSurgePool == false)
+        {
+            // surge color text is W
+            surgeColorText.GetComponent<Text>().text = "W";
+        }
+        else if (whiteInSurgePool == true && blackInSurgePool == false && redInSurgePool == true)
+        {
+            // surge color text is WR
+            surgeColorText.GetComponent<Text>().text = "WR";
+        }
+        else if (whiteInSurgePool == false && blackInSurgePool == true && redInSurgePool == true)
+        {
+            // surge color text is BR
+            surgeColorText.GetComponent<Text>().text = "BR";
+        }
+        else if (whiteInSurgePool == false && blackInSurgePool == true && redInSurgePool == false)
+        {
+            // surge color text is B
+            surgeColorText.GetComponent<Text>().text = "B";
+        }
+        else if (whiteInSurgePool == false && blackInSurgePool == false && redInSurgePool == true)
+        {
+            // surge color text is R
+            surgeColorText.GetComponent<Text>().text = "R";
+        }
+        else
+        {
+            surgeColorText.GetComponent<Text>().text = "";
+        }
+
+        // set blank color text
+        if (whiteInBlankPool == true && blackInBlankPool == true && redInBlankPool == true)
+        {
+            // blank color text is WBR
+            blankColorText.GetComponent<Text>().text = "WBR";
+        }
+        else if (whiteInBlankPool == true && blackInBlankPool == true && redInBlankPool == false)
+        {
+            // blank color text is WB
+            blankColorText.GetComponent<Text>().text = "WB";
+        }
+        else if (whiteInBlankPool == true && blackInBlankPool == false && redInBlankPool == false)
+        {
+            // blank color text is W
+            blankColorText.GetComponent<Text>().text = "W";
+        }
+        else if (whiteInBlankPool == true && blackInBlankPool == false && redInBlankPool == true)
+        {
+            // blank color text is WR
+            blankColorText.GetComponent<Text>().text = "WR";
+        }
+        else if (whiteInBlankPool == false && blackInBlankPool == true && redInBlankPool == true)
+        {
+            // blank color text is BR
+            blankColorText.GetComponent<Text>().text = "BR";
+        }
+        else if (whiteInBlankPool == false && blackInBlankPool == true && redInBlankPool == false)
+        {
+            // blank color text is B
+            blankColorText.GetComponent<Text>().text = "B";
+        }
+        else if (whiteInBlankPool == false && blackInBlankPool == false && redInBlankPool == true)
+        {
+            // blank color text is R
+            blankColorText.GetComponent<Text>().text = "R";
+        }
+        else
+        {
+            blankColorText.GetComponent<Text>().text = "";
+        }
     }
 }
