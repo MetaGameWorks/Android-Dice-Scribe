@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/_40k_Stand_Dice.unity
     guid: e301b1b8aa1a26443a4ddc098ddf78b0
+  - enabled: 1
+    path: Assets/Scenes/StarWarsLegion.unity
+    guid: 9647862d7173a0f49b10ba180a03ea44
   m_configObjects: {}
