@@ -5031,7 +5031,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 393849626}
+      - m_Target: {fileID: 278150599}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
@@ -17617,10 +17617,10 @@ MonoBehaviour:
   reRoll1sWoundButton: {fileID: 1838126818}
   reRollAllWoundsButton: {fileID: 311140216}
   reRollToAttackD3Button: {fileID: 864045889}
-  reRollToAttackD6Button: {fileID: 0}
+  reRollToAttackD6Button: {fileID: 851154269}
   rollMiscButton: {fileID: 1424432760}
   miscMenu: {fileID: 278150599}
-  miscResultMenu: {fileID: 278150599}
+  miscResultMenu: {fileID: 280047732}
   attackMenu: {fileID: 393849626}
   hitResultMenu: {fileID: 1255920506}
   d3AttacksMenu: {fileID: 542243280}
