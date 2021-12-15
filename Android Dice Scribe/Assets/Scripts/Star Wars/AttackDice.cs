@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Data;
 using System.Linq;
 
 public class AttackDice : MonoBehaviour
@@ -82,6 +83,15 @@ public class AttackDice : MonoBehaviour
     private bool redInHitPool;
     private bool redInSurgePool;
     private bool redInBlankPool;
+
+    // variables for setting the color text for dice results
+    private string critCText;
+    private string hitCText;
+    private string surgeCText;
+    private string blankCText;
+    private char w = 'W';
+    private char b = 'B';
+    private char r = 'R';
 
     public void Attack()
     {
@@ -252,170 +262,39 @@ public class AttackDice : MonoBehaviour
 
     }
 
+    // Sets color text values over the dice results to let the user know what colors are in each category
     public void SetColorText()
     {
-        // set crit color text
-        if(whiteInCritPool == true && blackInCritPool == true && redInCritPool == true)
-        {
-            // crit color text is WBR
-            critColorText.GetComponent<Text>().text = "WBR";
-        }
-        else if(whiteInCritPool == true && blackInCritPool == true && redInCritPool == false)
-        {
-            // crit color text is WB
-            critColorText.GetComponent<Text>().text = "WB";
-        }
-        else if(whiteInCritPool == true && blackInCritPool == false && redInCritPool == false)
-        {
-            // crit color text is W
-            critColorText.GetComponent<Text>().text = "W";
-        }
-        else if(whiteInCritPool == true && blackInCritPool == false && redInCritPool == true)
-        {
-            // crit color text is WR
-            critColorText.GetComponent<Text>().text = "WR";
-        }
-        else if(whiteInCritPool == false && blackInCritPool == true && redInCritPool == true)
-        {
-            // crit color text is BR
-            critColorText.GetComponent<Text>().text = "BR";
-        }
-        else if(whiteInCritPool == false && blackInCritPool == true && redInCritPool == false)
-        {
-            // crit color text is B
-            critColorText.GetComponent<Text>().text = "B";
-        }
-        else if(whiteInCritPool == false && blackInCritPool == false && redInCritPool == true)
-        {
-            // crit color text is R
-            critColorText.GetComponent<Text>().text = "R";
-        }
-        else
-        {
-            critColorText.GetComponent<Text>().text = "";
-        }
+        // clear text as re-rolling may remove a color entirely from a category
+        critCText = "";
+        hitCText = "";
+        surgeCText = "";
+        blankCText = "";
 
-        // set hit color text
-        if (whiteInHitPool == true && blackInHitPool == true && redInHitPool == true)
-        {
-            // hit color text is WBR
-            hitColorText.GetComponent<Text>().text = "WBR";
-        }
-        else if (whiteInHitPool == true && blackInHitPool == true && redInHitPool == false)
-        {
-            // hit color text is WB
-            hitColorText.GetComponent<Text>().text = "WB";
-        }
-        else if (whiteInHitPool == true && blackInHitPool == false && redInHitPool == false)
-        {
-            // hit color text is W
-            hitColorText.GetComponent<Text>().text = "W";
-        }
-        else if (whiteInHitPool == true && blackInHitPool == false && redInHitPool == true)
-        {
-            // hit color text is WR
-            hitColorText.GetComponent<Text>().text = "WR";
-        }
-        else if (whiteInHitPool == false && blackInHitPool == true && redInHitPool == true)
-        {
-            // hit color text is BR
-            hitColorText.GetComponent<Text>().text = "BR";
-        }
-        else if (whiteInHitPool == false && blackInHitPool == true && redInHitPool == false)
-        {
-            // hit color text is B
-            hitColorText.GetComponent<Text>().text = "B";
-        }
-        else if (whiteInHitPool == false && blackInHitPool == false && redInHitPool == true)
-        {
-            // hit color text is R
-            hitColorText.GetComponent<Text>().text = "R";
-        }
-        else
-        {
-            hitColorText.GetComponent<Text>().text = "";
-        }
+        // check crit category for different colors
+        if(whiteInCritPool == true){ critCText += w; }
+        if(blackInCritPool == true){ critCText += b; }
+        if (redInCritPool == true){ critCText += r; }
 
-        // set surge color text
-        if (whiteInSurgePool == true && blackInSurgePool == true && redInSurgePool == true)
-        {
-            // surge color text is WBR
-            surgeColorText.GetComponent<Text>().text = "WBR";
-        }
-        else if (whiteInSurgePool == true && blackInSurgePool == true && redInSurgePool == false)
-        {
-            // surge color text is WB
-            surgeColorText.GetComponent<Text>().text = "WB";
-        }
-        else if (whiteInSurgePool == true && blackInSurgePool == false && redInSurgePool == false)
-        {
-            // surge color text is W
-            surgeColorText.GetComponent<Text>().text = "W";
-        }
-        else if (whiteInSurgePool == true && blackInSurgePool == false && redInSurgePool == true)
-        {
-            // surge color text is WR
-            surgeColorText.GetComponent<Text>().text = "WR";
-        }
-        else if (whiteInSurgePool == false && blackInSurgePool == true && redInSurgePool == true)
-        {
-            // surge color text is BR
-            surgeColorText.GetComponent<Text>().text = "BR";
-        }
-        else if (whiteInSurgePool == false && blackInSurgePool == true && redInSurgePool == false)
-        {
-            // surge color text is B
-            surgeColorText.GetComponent<Text>().text = "B";
-        }
-        else if (whiteInSurgePool == false && blackInSurgePool == false && redInSurgePool == true)
-        {
-            // surge color text is R
-            surgeColorText.GetComponent<Text>().text = "R";
-        }
-        else
-        {
-            surgeColorText.GetComponent<Text>().text = "";
-        }
+        // check hit category for different colors
+        if (whiteInHitPool == true) { hitCText += w; }
+        if (blackInHitPool == true) { hitCText += b; }
+        if (redInHitPool == true) { hitCText += r; }
 
-        // set blank color text
-        if (whiteInBlankPool == true && blackInBlankPool == true && redInBlankPool == true)
-        {
-            // blank color text is WBR
-            blankColorText.GetComponent<Text>().text = "WBR";
-        }
-        else if (whiteInBlankPool == true && blackInBlankPool == true && redInBlankPool == false)
-        {
-            // blank color text is WB
-            blankColorText.GetComponent<Text>().text = "WB";
-        }
-        else if (whiteInBlankPool == true && blackInBlankPool == false && redInBlankPool == false)
-        {
-            // blank color text is W
-            blankColorText.GetComponent<Text>().text = "W";
-        }
-        else if (whiteInBlankPool == true && blackInBlankPool == false && redInBlankPool == true)
-        {
-            // blank color text is WR
-            blankColorText.GetComponent<Text>().text = "WR";
-        }
-        else if (whiteInBlankPool == false && blackInBlankPool == true && redInBlankPool == true)
-        {
-            // blank color text is BR
-            blankColorText.GetComponent<Text>().text = "BR";
-        }
-        else if (whiteInBlankPool == false && blackInBlankPool == true && redInBlankPool == false)
-        {
-            // blank color text is B
-            blankColorText.GetComponent<Text>().text = "B";
-        }
-        else if (whiteInBlankPool == false && blackInBlankPool == false && redInBlankPool == true)
-        {
-            // blank color text is R
-            blankColorText.GetComponent<Text>().text = "R";
-        }
-        else
-        {
-            blankColorText.GetComponent<Text>().text = "";
-        }
+        // check surge category for different colors
+        if(whiteInSurgePool == true) { surgeCText += w; }
+        if(blackInSurgePool == true) { surgeCText += b; }
+        if(redInSurgePool == true) { surgeCText += r; }
+
+        // check blank category for different colors
+        if(whiteInBlankPool == true) { blankCText += w; }
+        if (blackInBlankPool == true) { blankCText += b; }
+        if (redInBlankPool == true) { blankCText += r; }
+
+        // allocate values to the text
+        critColorText.GetComponent<Text>().text = critCText;
+        hitColorText.GetComponent<Text>().text = hitCText;
+        surgeColorText.GetComponent<Text>().text = surgeCText;
+        blankColorText.GetComponent<Text>().text = blankCText;
     }
 }
