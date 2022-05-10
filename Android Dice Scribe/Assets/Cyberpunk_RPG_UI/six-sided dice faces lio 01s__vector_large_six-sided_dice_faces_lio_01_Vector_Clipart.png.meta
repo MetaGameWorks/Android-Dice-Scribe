@@ -42,6 +42,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -256,6 +257,13 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_1: -6960906873353993100
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_0: 5002878840719765624
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_2: 9182821278762430213
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_4: -7492308685228672564
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_5: -8124864679679851293
+      six-sided dice faces lio 01s__vector_large_six-sided_dice_faces_lio_01_Vector_Clipart_3: -1370488173536842410
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
