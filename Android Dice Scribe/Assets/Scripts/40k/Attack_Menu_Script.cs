@@ -14,6 +14,12 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject miscDiceInput;
 
     // variables for the results fields
+    public GameObject[] hitResult;
+    public GameObject[] woundResult;
+    public GameObject[] d3Result;
+    public GameObject[] d6Result;
+    public GameObject[] miscResult;
+
     public GameObject hitDie1;
     public GameObject hitDie2;
     public GameObject hitDie3;
@@ -65,17 +71,19 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject reRollToAttackD6Button;
     public GameObject rollMiscButton;
 
+    // Menu game objects for disabling and enabling the menus
+    public GameObject attackMenu;
+    public GameObject hitResultMenu;
     public GameObject miscMenu;
     public GameObject miscResultMenu;
 
     // Extra menus in case the number of attacks are 1-to-1, D3, and D6
-    public GameObject attackMenu;
-    public GameObject hitResultMenu;
     public GameObject d3AttacksMenu;
     public GameObject d6AttacksMenu;
     public GameObject d3Toggle;
     public GameObject d6Toggle;
-    // bools for variant number of attacks
+
+    // variable for variant number of attacks
     private enum VariantAttacks {Single, D3, D6 };
     private VariantAttacks vAttacks = VariantAttacks.Single;
 
