@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -845,4 +845,4 @@ public class Attack_Menu_Script : MonoBehaviour
             d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
         }
     }
-}
+}*/
