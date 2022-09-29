@@ -63,7 +63,10 @@ public class Dice_Menu_Controller : MonoBehaviour
     private int[] variantAttacks = new int[6];
     private int[] miscDiePool = new int[6];
 
+    public void RollDice(int dicePool, int num)
+	{
 
+	}
     // Printing Functions
     /*(void PrintReRollHits()
     {
