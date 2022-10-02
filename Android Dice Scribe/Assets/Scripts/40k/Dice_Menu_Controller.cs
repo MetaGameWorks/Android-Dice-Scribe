@@ -65,8 +65,20 @@ public class Dice_Menu_Controller : MonoBehaviour
 
     public void RollDice(int dicePool, int num)
 	{
-
+        for(int i = num; i > 0; i--)
+		{
+            dicePool[UnityEngine.Random.Range(0, 6)]++;
+		}
 	}
+
+    public void PrintResults(int dicePool, GameObject resultText)
+	{
+        for(int i = 0; i < 6; i++)
+		{
+            resultText[i].GetComponent<Text>().text = "" + dicePool[i];
+        }
+	}
+
     // Printing Functions
     /*(void PrintReRollHits()
     {
@@ -118,108 +130,29 @@ public class Dice_Menu_Controller : MonoBehaviour
     {
         for(int i = 0; i < 6; i++)
         {
-
-        }
-
-        if (reRollDiePool[0] > 0)
-        {
-            d3Die1.GetComponent<Text>().text = "" + variantAttacks[0] + " + " + reRollDiePool[0];
-        }
-        else
-        {
-            d3Die1.GetComponent<Text>().text = "" + variantAttacks[0];
-        }
-        if (reRollDiePool[1] > 0)
-        {
-            d3Die2.GetComponent<Text>().text = "" + variantAttacks[1] + " + " + reRollDiePool[1];
-        }
-        else
-        {
-            d3Die2.GetComponent<Text>().text = "" + variantAttacks[1];
-        }
-        if (reRollDiePool[2] > 0)
-        {
-            d3Die3.GetComponent<Text>().text = "" + variantAttacks[2] + " + " + reRollDiePool[2];
-        }
-        else
-        {
-            d3Die3.GetComponent<Text>().text = "" + variantAttacks[2];
-        }
-        if (reRollDiePool[3] > 0)
-        {
-            d3Die4.GetComponent<Text>().text = "" + variantAttacks[3] + " + " + reRollDiePool[3];
-        }
-        else
-        {
-            d3Die4.GetComponent<Text>().text = "" + variantAttacks[3];
-        }
-        if (reRollDiePool[4] > 0)
-        {
-            d3Die5.GetComponent<Text>().text = "" + variantAttacks[4] + " + " + reRollDiePool[4];
-        }
-        else
-        {
-            d3Die5.GetComponent<Text>().text = "" + variantAttacks[4];
-        }
-        if (reRollDiePool[5] > 0)
-        {
-            d3Die6.GetComponent<Text>().text = "" + variantAttacks[5] + " + " + reRollDiePool[5];
-        }
-        else
-        {
-            d3Die6.GetComponent<Text>().text = "" + variantAttacks[5];
+            if (reRollDiePool[i] > 0)
+            {
+                d3Result[i].GetComponent<Text>().text = "" + variantAttacks[i] + " + " + reRollDiePool[i];
+            }
+            else
+            {
+                d3Result[i].GetComponent<Text>().text = "" + variantAttacks[i];
+            }
         }
     }
 
     public void PrintReRollToAttackD6()
     {
-        if (reRollDiePool[0] > 0)
+        for(int i = 0; i < 6; i++)
         {
-            d6Die1.GetComponent<Text>().text = "" + variantAttacks[0] + " + " + reRollDiePool[0];
-        }
-        else
-        {
-            d6Die1.GetComponent<Text>().text = "" + variantAttacks[0];
-        }
-        if (reRollDiePool[1] > 0)
-        {
-            d6Die2.GetComponent<Text>().text = "" + variantAttacks[1] + " + " + reRollDiePool[1];
-        }
-        else
-        {
-            d6Die2.GetComponent<Text>().text = "" + variantAttacks[1];
-        }
-        if (reRollDiePool[2] > 0)
-        {
-            d6Die3.GetComponent<Text>().text = "" + variantAttacks[2] + " + " + reRollDiePool[2];
-        }
-        else
-        {
-            d6Die3.GetComponent<Text>().text = "" + variantAttacks[2];
-        }
-        if (reRollDiePool[3] > 0)
-        {
-            d6Die4.GetComponent<Text>().text = "" + variantAttacks[3] + " + " + reRollDiePool[3];
-        }
-        else
-        {
-            d6Die4.GetComponent<Text>().text = "" + variantAttacks[3];
-        }
-        if (reRollDiePool[4] > 0)
-        {
-            d6Die5.GetComponent<Text>().text = "" + variantAttacks[4] + " + " + reRollDiePool[4];
-        }
-        else
-        {
-            d6Die5.GetComponent<Text>().text = "" + variantAttacks[4];
-        }
-        if (reRollDiePool[5] > 0)
-        {
-            d6Die6.GetComponent<Text>().text = "" + variantAttacks[5] + " + " + reRollDiePool[5];
-        }
-        else
-        {
-            d6Die6.GetComponent<Text>().text = "" + variantAttacks[5];
+            if (reRollDiePool[0] > 0)
+            {
+                d6Result[i].GetComponent<Text>().text = "" + variantAttacks[i] + " + " + reRollDiePool[i];
+            }
+            else
+            {
+                d6Die1.GetComponent<Text>().text = "" + variantAttacks[i];
+            }
         }
     }*/
 }
