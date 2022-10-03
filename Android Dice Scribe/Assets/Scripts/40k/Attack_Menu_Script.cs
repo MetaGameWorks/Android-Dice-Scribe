@@ -24,7 +24,7 @@ public class Attack_Menu_Script : MonoBehaviour
     public GameObject hitDie2;
     public GameObject hitDie3;
     public GameObject hitDie4;
-    public GameObject hitDie5;
+    public GameObject hitDie5; 
     public GameObject hitDie6;
     public GameObject totalHits;
 

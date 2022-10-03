@@ -63,7 +63,7 @@ public class Dice_Menu_Controller : MonoBehaviour
     private int[] variantAttacks = new int[6];
     private int[] miscDiePool = new int[6];
 
-    public void RollDice(int dicePool, int num)
+    public void RollDice(int[] dicePool, int num)
 	{
         for(int i = num; i > 0; i--)
 		{
@@ -71,7 +71,7 @@ public class Dice_Menu_Controller : MonoBehaviour
 		}
 	}
 
-    public void PrintResults(int dicePool, GameObject resultText)
+    public void PrintResults(int[] dicePool, GameObject[] resultText)
 	{
         for(int i = 0; i < 6; i++)
 		{
