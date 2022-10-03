@@ -63,6 +63,8 @@ public class Dice_Menu_Controller : MonoBehaviour
     private int[] variantAttacks = new int[6];
     private int[] miscDiePool = new int[6];
 
+    // takes in an dice pool array and a num and rolls a number of d6 dice equal to num
+    // this is to be used in other functions
     public void RollDice(int[] dicePool, int num)
 	{
         for(int i = num; i > 0; i--)
@@ -71,6 +73,8 @@ public class Dice_Menu_Controller : MonoBehaviour
 		}
 	}
 
+    // takes in a dice pool array and an array of text GameObjects and outputs the dice results to the array of text GameObjects
+    // this is to be used in other functions
     public void PrintResults(int[] dicePool, GameObject[] resultText)
 	{
         for(int i = 0; i < 6; i++)
@@ -79,10 +83,27 @@ public class Dice_Menu_Controller : MonoBehaviour
         }
 	}
 
+    // clear text GameObject
+    // this is to be used in other functions
+    public void ClearText(GameObject[] resultText)
+	{
+        for(int i = 0; i < 7; i++)
+		{
+            resultText[i].GetComponent<Text>().text = "0";
+        }
+	}
+
+    public void MiscDiceRoll()
+	{
+        numOfMisc = 0;
+        Array.Clear(miscDiePool, 0, 6);
+
+	}
+
     // Printing Functions
-    /*(void PrintReRollHits()
+    void PrintReRollHits()
     {
-        int num = CountSuccesses(toHit, reRollDiePool);
+        /*int num = CountSuccesses(toHit, reRollDiePool);
 
         // outputs the wound roll results
         if (num > 0)
@@ -100,12 +121,12 @@ public class Dice_Menu_Controller : MonoBehaviour
             {
                 hitResult[i].GetComponent<Text>().text = "" + hitDiePool[i];
             }
-         }
+         }*/
     }
 
     public void PrintReRollWounds()
     {
-        int num = CountSuccesses(toWound, reRollDiePool);
+        /*int num = CountSuccesses(toWound, reRollDiePool);
 
         // outputs the wound roll results
         if (num > 0)
@@ -123,12 +144,12 @@ public class Dice_Menu_Controller : MonoBehaviour
             {
                 woundResult[i].GetComponent<Text>().text = "" + woundDiePool[i];
             }
-        }
+        }*/
     }
 
     public void PrintReRollToAttackD3()
     {
-        for(int i = 0; i < 6; i++)
+        /*for(int i = 0; i < 6; i++)
         {
             if (reRollDiePool[i] > 0)
             {
@@ -138,12 +159,12 @@ public class Dice_Menu_Controller : MonoBehaviour
             {
                 d3Result[i].GetComponent<Text>().text = "" + variantAttacks[i];
             }
-        }
+        }*/
     }
 
     public void PrintReRollToAttackD6()
     {
-        for(int i = 0; i < 6; i++)
+        /*for(int i = 0; i < 6; i++)
         {
             if (reRollDiePool[0] > 0)
             {
@@ -153,6 +174,6 @@ public class Dice_Menu_Controller : MonoBehaviour
             {
                 d6Die1.GetComponent<Text>().text = "" + variantAttacks[i];
             }
-        }
-    }*/
+        }*/
+    }
 }
