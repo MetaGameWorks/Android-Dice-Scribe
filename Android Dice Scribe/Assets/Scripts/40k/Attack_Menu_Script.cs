@@ -537,7 +537,7 @@ public class Attack_Menu_Script : MonoBehaviour
     }
 
     // takes a num and an array
-    // num is the number of dice and dicePool is the array of dice ex
+    // num is th51e number of dice and dicePool is the array of dice ex
     public void RollDice(int num, int[] dicePool)
     {
         for (int i = 0; i < num; i++)

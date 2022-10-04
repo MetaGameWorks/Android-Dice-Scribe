@@ -17813,63 +17813,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea50eef738e42284186cb927136a5c99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacksInput: {fileID: 2005977358}
-  skillInput: {fileID: 1791828919}
-  weaponStrInput: {fileID: 122011714}
-  targetToughnessInput: {fileID: 2095108790}
-  miscDiceInput: {fileID: 2005184478}
-  hitDie1: {fileID: 1191582037}
-  hitDie2: {fileID: 1787590273}
-  hitDie3: {fileID: 791449676}
-  hitDie4: {fileID: 1739210562}
-  hitDie5: {fileID: 1759516533}
-  hitDie6: {fileID: 789221921}
-  totalHits: {fileID: 469552451}
-  woundDie1: {fileID: 2099142201}
-  woundDie2: {fileID: 1365570487}
-  woundDie3: {fileID: 1395050595}
-  woundDie4: {fileID: 1915729306}
-  woundDie5: {fileID: 1447515004}
-  woundDie6: {fileID: 2125637409}
-  totalWounds: {fileID: 859233985}
-  d3Die1: {fileID: 540227874}
-  d3Die2: {fileID: 222590094}
-  d3Die3: {fileID: 630726719}
-  d3Die4: {fileID: 1992858398}
-  d3Die5: {fileID: 1805499966}
-  d3Die6: {fileID: 1071616268}
-  d3TotalAttacks: {fileID: 964260457}
-  d6Die1: {fileID: 877497178}
-  d6Die2: {fileID: 215479496}
-  d6Die3: {fileID: 1288358062}
-  d6Die4: {fileID: 505557027}
-  d6Die5: {fileID: 1025123221}
-  d6Die6: {fileID: 1182432937}
-  d6TotalAttacks: {fileID: 196580005}
-  miscDie1: {fileID: 1669516261}
-  miscDie2: {fileID: 1865044534}
-  miscDie3: {fileID: 1858634344}
-  miscDie4: {fileID: 1653550586}
-  miscDie5: {fileID: 1492377117}
-  miscDie6: {fileID: 946639441}
-  reRoll1HitButton: {fileID: 1922960552}
-  reRoll1sHitButton: {fileID: 1614205878}
-  reRollAllHitsButton: {fileID: 442002691}
-  woundButton: {fileID: 30577454}
-  reRoll1WoundButton: {fileID: 73181137}
-  reRoll1sWoundButton: {fileID: 1838126818}
-  reRollAllWoundsButton: {fileID: 311140216}
-  reRollToAttackD3Button: {fileID: 864045889}
-  reRollToAttackD6Button: {fileID: 851154269}
-  rollMiscButton: {fileID: 1424432760}
-  miscMenu: {fileID: 278150599}
-  miscResultMenu: {fileID: 280047732}
-  attackMenu: {fileID: 393849626}
-  hitResultMenu: {fileID: 1255920506}
-  d3AttacksMenu: {fileID: 542243280}
-  d6AttacksMenu: {fileID: 567297674}
-  d3Toggle: {fileID: 273937749}
-  d6Toggle: {fileID: 1489552536}
 --- !u!114 &2078066379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17882,10 +17825,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c2b1991c511d56408c5a6fb3b36f92b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attacksInput: {fileID: 0}
-  skillInput: {fileID: 0}
-  weaponStrInput: {fileID: 0}
-  targetToughnessInput: {fileID: 0}
+  numOfAttacksInput: {fileID: 0}
+  toHitInput: {fileID: 0}
+  toWoundInput: {fileID: 0}
   miscDiceInput: {fileID: 0}
   hitResult: []
   woundResult: []
