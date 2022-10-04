@@ -74,6 +74,36 @@ public class Dice_Menu_Controller : MonoBehaviour
 		}
 	}
 
+    // takes a num and an arracy and returns an int
+    // the num is the lower limit to count the number of successful rolls in the dice array
+    // this is to be used in other functions
+    public int CountSuccesses(int num, int[] dicePool)
+    {
+        int numOfSuc = 0;
+
+        for (int i = 5; i >= (num - 1); i--)
+        {
+            numOfSuc += dicePool[i];
+        }
+
+        return numOfSuc;
+    }
+
+    // takes a num and an arracy and returns an int
+    // the num is the upper limit to count the number of failed rolls in the dice array
+    // this is to be used in other functions
+    public int CountFailures(int num, int[] dicePool)
+    {
+        int numOfFail = 0;
+
+        for (int i = 0; i < (num - 1); i++)
+        {
+            numOfFail += dicePool[i];
+        }
+
+        return numOfFail;
+    }
+
     // takes in a dice pool array and an array of text GameObjects and outputs the dice results to the array of text GameObjects
     // this is to be used in other functions
     public void PrintResults(int[] dicePool, GameObject[] resultText)
@@ -135,7 +165,7 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // takes in the user input to start the stardard attack sequence
-    // this is to called from the menu by pressing the Atack! button after entering the required info
+    // this is to called from the menu by pressing the Attack! button after entering the required info
     public void StandardAttackStart()
     {
         // Assigning vaules from the input fields
@@ -189,7 +219,8 @@ public class Dice_Menu_Controller : MonoBehaviour
         // outputs the hit roll results
         PrintResults(hitDiePool, hitResult);
 
-        //numOfHits = CountSuccesses(toHit, hitDiePool);
+        // counts the number of hits in the dice pool
+        numOfHits = CountSuccesses(toHit, hitDiePool);
         hitResult[6].GetComponent<Text>().text = "Hits: " + numOfHits;
 
         // as long as the number of hits is greater than 0, activate the wound button
