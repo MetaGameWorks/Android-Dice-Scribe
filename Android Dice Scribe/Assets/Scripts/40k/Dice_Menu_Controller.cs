@@ -114,15 +114,28 @@ public class Dice_Menu_Controller : MonoBehaviour
         }
 	}
 
-    // clear text GameObject
-    // this is to be used in other functions
-    public void ClearText(GameObject[] resultText)
-	{
-        for(int i = 0; i < 7; i++)
-		{
-            resultText[i].GetComponent<Text>().text = "0";
+    // outputs re-rolls if the results change
+    // called by other functions during all re-rolls
+    public void PrintReRolls(int[] dicePool, GameObject[] resultText, int currentTotal, int goal)
+    {
+        // outputs the new total if it changed
+        if (CountSuccesses(goal, dicePool) > 0)
+        {
+            resultText[6].GetComponent<Text>().text = "" + currentTotal + " + " + goal;
         }
-	}
+
+        for (int i = 0; i < 6; i++)
+        {
+            if (reRollDiePool[i] > 0)
+            {
+                resultText[i].GetComponent<Text>().text = "" + dicePool[i] + " + " + reRollDiePool[i];
+            }
+            else
+            {
+                resultText[i].GetComponent<Text>().text = "" + dicePool[i];
+            }
+        }
+    }
 
     // change active menus
     // this is to be used in other functions
@@ -140,12 +153,10 @@ public class Dice_Menu_Controller : MonoBehaviour
         {
             vAttacks = VariantAttacks.D3;
             d6Toggle.GetComponent<Toggle>().isOn = false;
-            Debug.Log("The toggle is on: " + vAttacks);
         }
         else
         {
             vAttacks = VariantAttacks.Single;
-            Debug.Log("The toggle is off: " + vAttacks);
         }
     }
 
@@ -183,12 +194,41 @@ public class Dice_Menu_Controller : MonoBehaviour
             }
             else if (vAttacks == VariantAttacks.D3)
             {
-                CalcNumOfAttacksD3();
+                CalcNumOfVariantAttacks(d3Result, d3AttacksMenu, true);
             }
             else
             {
-                CalcNumOfAttacksD6();
+                CalcNumOfVariantAttacks(d6Result, d6AttacksMenu, false);
             }
+        }
+    }
+
+    // function that handles variant number of attacks
+    // takes in the array of text results, the destination menu, and a bool to determine if it's for D3 or D6
+    void CalcNumOfVariantAttacks(GameObject[] dicePool, GameObject menu, bool isD3)
+    {
+        // change menus
+        ChangeMenus(attackMenu, menu);
+
+        // roll dice
+        RollDice(variantAttacks, numOfAttacks);
+
+        // outputs the hit roll results
+        for(int i = 0; i < 6; i++)
+		{
+            dicePool[i].GetComponent<Text>().text = "" + variantAttacks[i];
+        }
+
+        // determines if it's D3 or D6
+        if(isD3)
+		{
+            numOfAttacks = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[2] + variantAttacks[3])) + (3 * (variantAttacks[4] + variantAttacks[5]));
+            d3Result[6].GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
+        }
+		else
+		{
+            numOfAttacks = variantAttacks[0] + (variantAttacks[1] * 2) + (variantAttacks[2] * 3) + (variantAttacks[3] * 4) + (variantAttacks[4] * 5) + (variantAttacks[5] * 6);
+            d6Result[6].GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
         }
     }
 
@@ -231,116 +271,93 @@ public class Dice_Menu_Controller : MonoBehaviour
         if (hitDiePool[0] > 0) { reRoll1sHitButton.SetActive(true); }
     }
 
-    // calculate the number of attacks if it's D3
-    // this is called if the number of attacks are D3 from the Attack Menu
-    public void CalcNumOfAttacksD3()
+    // re-roll one failed hit roll for command point re-roll or other abilities
+    public void ReRollOneHit()
     {
-        // change menus
-        ChangeMenus(attackMenu, d3AttacksMenu);
+        // roll the re-roll dice pool
+        int oneDie = UnityEngine.Random.Range(0, 6);
+        reRollDiePool[oneDie]++;
 
-        // rolls a number of D6 dice equal to numOfAttacks
-        // numOfAttacks is obtained from the Attack Menu
-        RollDice(variantAttacks, numOfAttacks);
-
-        // outputs the hit roll results
-        PrintResults(variantAttacks, d3Result);
-
-        numOfAttacks = (variantAttacks[0] + variantAttacks[1]) + (2 * (variantAttacks[2] + variantAttacks[3])) + (3 * (variantAttacks[4] + variantAttacks[5]));
-        d3Result[6].GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
-    }
-
-    // calculate the number of attacks if it's D6
-    // this is called if the number of attacks are D6 from the Attack Menu
-    public void CalcNumOfAttacksD6()
-    {
-        // change menus
-        ChangeMenus(attackMenu, d6AttacksMenu);
-
-        // rolls a number of D6 dice equal to numOfAttacks
-        // numOfAttacks is obtained from the Attack Menu
-        RollDice(variantAttacks, numOfAttacks);
-
-        // outputs the hit roll results
-        PrintResults(variantAttacks, d6Result);
-
-        numOfAttacks = variantAttacks[0] + (variantAttacks[1] * 2) + (variantAttacks[2] * 3) + (variantAttacks[3] * 4) + (variantAttacks[4] * 5) + (variantAttacks[5] * 6);
-        d6Result[6].GetComponent<Text>().text = "Total Attacks: " + numOfAttacks;
-    }
-
-    // Printing Functions
-    void PrintReRollHits()
-    {
-        /*int num = CountSuccesses(toHit, reRollDiePool);
-
-        // outputs the wound roll results
-        if (num > 0)
+        // remove the lowest die from the dice pool
+        for (int i = 0; i < (toHit - 1); i++)
         {
-            totalHits.GetComponent<Text>().text = "Hits: " + numOfHits + " + " + num;
+            if (hitDiePool[i] > 0)
+            {
+                hitDiePool[i]--;
+                break;
+            }
         }
-        
-        for (int i = 0; i < 6; i++)
-        {
-            if (reRollDiePool[i] > 0)
-            {
-                hitResult[i].GetComponent<Text>().text = "" + hitDiePool[i] + " + " + reRollDiePool[i];
-            }
-            else
-            {
-                hitResult[i].GetComponent<Text>().text = "" + hitDiePool[i];
-            }
-         }*/
-    }
 
-    public void PrintReRollWounds()
-    {
-        /*int num = CountSuccesses(toWound, reRollDiePool);
-
-        // outputs the wound roll results
-        if (num > 0)
+        // deactivate buttons depending on the number of available failed rolls
+        if (CountFailures(toHit, hitDiePool) == 0)
         {
-            totalWounds.GetComponent<Text>().text = "Wounds: " + numOfWounds + " + " + num;
+            reRoll1HitButton.SetActive(false);
+            reRoll1sHitButton.SetActive(false);
+            reRollAllHitsButton.SetActive(false);
         }
-        
-        for(int i = 0; i < 6; i++)
+        else if (hitDiePool[0] == 0)
         {
-            if (reRollDiePool[i] > 0)
-            {
-                woundResult[i].GetComponent<Text>().text = "" + woundDiePool[i] + " + " + reRollDiePool[i];
-            }
-            else
-            {
-                woundResult[i].GetComponent<Text>().text = "" + woundDiePool[i];
-            }
-        }*/
+            reRoll1sHitButton.SetActive(false);
+        }
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
+        {
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
+        }
+
+        // output results of the re-roll
+        PrintReRolls(hitDiePool, hitResult, CountSuccesses(toHit, hitDiePool), toHit);
     }
 
-    public void PrintReRollToAttackD3()
+    // re-roll all hit rolls of 1
+    public void ReRollHitsOf1()
     {
-        /*for(int i = 0; i < 6; i++)
+        // roll the re-roll dice pool
+        RollDice(reRollDiePool, hitDiePool[0]);
+
+        // remove the 1's from the dice pool
+        hitDiePool[0] = 0;
+        // disable re-roll 1's button and re-roll all hits
+        reRoll1sHitButton.SetActive(false);
+        reRollAllHitsButton.SetActive(false);
+        // if there are no more failed hits disable re-roll 1 hit button
+        if (CountFailures(toHit, hitDiePool) == 0) { reRoll1HitButton.SetActive(false); }
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
         {
-            if (reRollDiePool[i] > 0)
-            {
-                d3Result[i].GetComponent<Text>().text = "" + variantAttacks[i] + " + " + reRollDiePool[i];
-            }
-            else
-            {
-                d3Result[i].GetComponent<Text>().text = "" + variantAttacks[i];
-            }
-        }*/
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
+        }
+
+        // output results of the re-roll
+        PrintReRolls(hitDiePool, hitResult, CountSuccesses(toHit, hitDiePool), toHit);
     }
 
-    public void PrintReRollToAttackD6()
+    // re-roll all failed hit rolls
+    public void ReRollHitAllFails()
     {
-        /*for(int i = 0; i < 6; i++)
+        // roll the re-roll dice pool
+        RollDice(reRollDiePool, CountFailures(toHit, hitDiePool));
+
+        // clear failed rolls from the dice pool
+        for (int i = 0; i < (toHit - 1); i++)
         {
-            if (reRollDiePool[0] > 0)
-            {
-                d6Result[i].GetComponent<Text>().text = "" + variantAttacks[i] + " + " + reRollDiePool[i];
-            }
-            else
-            {
-                d6Die1.GetComponent<Text>().text = "" + variantAttacks[i];
-            }
-        }*/
+            hitDiePool[i] = 0;
+        }
+
+        // disable re-roll buttons, all failures are gone
+        reRoll1HitButton.SetActive(false);
+        reRoll1sHitButton.SetActive(false);
+        reRollAllHitsButton.SetActive(false);
+
+        // if the wound button was disabled and there are new hits from the re-roll enable the wound button
+        if (woundButton.activeSelf == false)
+        {
+            if (CountSuccesses(toHit, reRollDiePool) > 0) { woundButton.SetActive(true); }
+        }
+
+        // output results of the re-roll
+        PrintReRolls(hitDiePool, hitResult, CountSuccesses(toHit, hitDiePool), toHit);
     }
 }
