@@ -74,6 +74,18 @@ public class Dice_Menu_Controller : MonoBehaviour
 		}
 	}
 
+    // takes in an dice pool array and a num and rolls a number of d6 dice equal to num
+    // this is to be used in other functions
+    // this is different because it doesn't clear the array when rolling
+    public void ReRollDice(int[] dicePool, int num)
+    {
+        // rolls a random number 0-5 a number of times equal to num
+        for (int i = num; i > 0; i--)
+        {
+            dicePool[UnityEngine.Random.Range(0, 6)]++;
+        }
+    }
+
     // takes a num and an arracy and returns an int
     // the num is the lower limit to count the number of successful rolls in the dice array
     // this is to be used in other functions
@@ -146,7 +158,7 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // toggle for D3 attacks
-    // called from the attack menu
+    // called from the attack menu when toggling the D3 switch
     public void D3Toggle(bool toggle)
     {
         if (toggle)
@@ -161,7 +173,7 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // toggle for D6 attacks
-    // called from the attack menu
+    // called from the attack menu when toggling the D6 switch
     public void D6Toggle(bool toggle)
     {
         if (toggle)
@@ -252,6 +264,8 @@ public class Dice_Menu_Controller : MonoBehaviour
         reRoll1sWoundButton.SetActive(false);
         reRollAllWoundsButton.SetActive(false);
 
+        Array.Clear(reRollDiePool, 0, reRollDiePool.Length);
+
         // rolls the dice
         // numOfAttacks is taken from StandardAttackStart
         RollDice(hitDiePool, numOfAttacks);
@@ -272,11 +286,11 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // re-roll one failed hit roll for command point re-roll or other abilities
+    // function is called from the hit result menu when pressing the re-roll buttons
     public void ReRollOneHit()
     {
         // roll the re-roll dice pool
-        int oneDie = UnityEngine.Random.Range(0, 6);
-        reRollDiePool[oneDie]++;
+        reRollDiePool[UnityEngine.Random.Range(0, 6)]++;
 
         // remove the lowest die from the dice pool
         for (int i = 0; i < (toHit - 1); i++)
@@ -311,10 +325,11 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // re-roll all hit rolls of 1
+    // function is called from the hit result menu when pressing the re-roll buttons
     public void ReRollHitsOf1()
     {
         // roll the re-roll dice pool
-        RollDice(reRollDiePool, hitDiePool[0]);
+        ReRollDice(reRollDiePool, hitDiePool[0]);
 
         // remove the 1's from the dice pool
         hitDiePool[0] = 0;
@@ -335,10 +350,11 @@ public class Dice_Menu_Controller : MonoBehaviour
     }
 
     // re-roll all failed hit rolls
+    // function is called from the hit result menu when pressing the re-roll buttons
     public void ReRollHitAllFails()
     {
         // roll the re-roll dice pool
-        RollDice(reRollDiePool, CountFailures(toHit, hitDiePool));
+        ReRollDice(reRollDiePool, CountFailures(toHit, hitDiePool));
 
         // clear failed rolls from the dice pool
         for (int i = 0; i < (toHit - 1); i++)
@@ -359,5 +375,99 @@ public class Dice_Menu_Controller : MonoBehaviour
 
         // output results of the re-roll
         PrintReRolls(hitDiePool, hitResult, CountSuccesses(toHit, hitDiePool), toHit);
+    }
+
+    // roll to wound
+    // function called after hits are calculated and the Wound button is pressed
+    public void RollToWound()
+    {
+        Array.Clear(reRollDiePool, 0, reRollDiePool.Length);
+
+        // rolls the dice
+        RollDice(woundDiePool, numOfHits);
+
+        // outputs the wound roll results
+        for(int i = 0; i < 6; i++)
+		{
+            woundResult[i].GetComponent<Text>().text = "" + woundDiePool[i];
+        }
+
+        numOfWounds = CountSuccesses(toWound, woundDiePool);
+        woundResult[6].GetComponent<Text>().text = "Wounds: " + numOfWounds;
+
+        // if there are any failed wounds then activate re-roll 1 and re-roll all failed buttons
+        if (numOfHits > numOfWounds) { reRoll1WoundButton.SetActive(true); reRollAllWoundsButton.SetActive(true); }
+        // if there are any 1's activate the re-roll 1's button
+        if (woundDiePool[0] > 0) { reRoll1sWoundButton.SetActive(true); }
+    }
+
+    // re-roll one failed wound roll for command point re-roll or other abilities
+    public void ReRollOneWound()
+    {
+        // roll the re-roll dice pool
+        reRollDiePool[UnityEngine.Random.Range(0, 6)]++;
+
+        // remove the lowest die from the dice pool
+        for (int i = 0; i < (toWound - 1); i++)
+        {
+            if (woundDiePool[i] > 0)
+            {
+                woundDiePool[i]--;
+                break;
+            }
+        }
+
+        // deactivate buttons depending on the number of available failed rolls
+        if (CountFailures(toWound, woundDiePool) == 0)
+        {
+            reRoll1WoundButton.SetActive(false);
+            reRoll1sWoundButton.SetActive(false);
+            reRollAllWoundsButton.SetActive(false);
+        }
+        else if (woundDiePool[0] == 0)
+        {
+            reRoll1sWoundButton.SetActive(false);
+        }
+
+        // output results of the re-roll
+        PrintReRolls(woundDiePool, hitResult, CountSuccesses(toWound, woundDiePool), toWound);
+    }
+
+    // re-roll all wound rolls of 1
+    public void ReRollWoundsOf1()
+    {
+        // roll the re-roll dice pool
+        ReRollDice(reRollDiePool, woundDiePool[0]);
+
+        // remove the 1's from the dice pool
+        woundDiePool[0] = 0;
+        // disable re-roll 1's button and re-roll all hits
+        reRoll1sWoundButton.SetActive(false);
+        // if there are no more failed hits disable re-roll 1 hit button
+        if (CountFailures(toWound, woundDiePool) == 0) { reRoll1WoundButton.SetActive(false); reRollAllWoundsButton.SetActive(false); }
+
+        // output results of the re-roll
+        PrintReRolls(woundDiePool, hitResult, CountSuccesses(toWound, woundDiePool), toWound);
+    }
+
+    // re-roll all failed wound rolls
+    public void ReRollWoundAllFails()
+    {
+        // roll the re-roll dice pool
+        ReRollDice(reRollDiePool, CountFailures(toWound, woundDiePool));
+
+        // clear failed rolls from the dice pool
+        for (int i = 0; i < (toWound - 1); i++)
+        {
+            woundDiePool[i] = 0;
+        }
+
+        // disable re-roll buttons
+        reRoll1WoundButton.SetActive(false);
+        reRoll1sWoundButton.SetActive(false);
+        reRollAllWoundsButton.SetActive(false);
+
+        // output results of the re-roll
+        PrintReRolls(woundDiePool, hitResult, CountSuccesses(toWound, woundDiePool), toWound);
     }
 }
